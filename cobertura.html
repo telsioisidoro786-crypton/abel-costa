@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cobertura Nacional | Abel Costa Transportes</title>
+  <meta name="description" content="Abel Costa Transportes cobre todas as 18 províncias de Angola. Consulte rotas, prazos e condições de entrega por destino." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500&family=Barlow+Condensed:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red: #D0021B;
+      --red-glow: rgba(208,2,27,0.2);
+      --red-pulse: rgba(208,2,27,0.08);
+      --black: #060608;
+      --deep: #0B0C10;
+      --panel: #0F1015;
+      --surface: #14151A;
+      --border: rgba(255,255,255,0.06);
+      --border-active: rgba(208,2,27,0.4);
+      --white: #FFFFFF;
+      --grey: #5A5B65;
+      --grey-mid: #8A8B96;
+      --grey-light: #B8B9C4;
+      --green: #00E5A0;
+      --amber: #FFB300;
+      --blue: #4FC3F7;
+      --font-display: 'Rajdhani', sans-serif;
+      --font-condensed: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ========================
+       NAV
+    ======================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4vw;
+      background: rgba(6,6,8,0.97);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 16px; }
+
+    .nav-logo-mark {
+      width: 32px; height: 32px;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+    .nav-logo-mark svg { width: 16px; height: 16px; fill: white; }
+
+    .nav-title {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--white);
+    }
+
+    .nav-sep { width: 1px; height: 20px; background: var(--border); }
+
+    .nav-page {
+      font-family: var(--font-mono);
+      font-size: 0.7rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+
+    .nav-indicator {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--grey-mid);
+    }
+
+    .indicator-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .nav-back {
+      font-family: var(--font-condensed);
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--grey-mid); text-decoration: none;
+      transition: color 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-back:hover { color: var(--white); }
+    .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* ========================
+       MAIN LAYOUT
+    ======================== */
+    .app-layout {
+      padding-top: 60px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ========================
+       LEFT SIDEBAR
+    ======================== */
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Sidebar header */
+    .sidebar-header {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .sidebar-tag::before {
+      content: '';
+      display: inline-block;
+      width: 16px; height: 1px;
+      background: var(--red);
+    }
+
+    .sidebar-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .sidebar-title span { color: var(--red); }
+
+    .sidebar-sub {
+      font-family: var(--font-body);
+      font-size: 0.82rem; font-weight: 300;
+      color: var(--grey-mid); line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    /* Province count */
+    .province-counter {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .counter-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+
+    .counter-val {
+      font-family: var(--font-mono);
+      font-size: 0.8rem; color: var(--green);
+    }
+
+    /* Province list */
+    .province-list {
+      flex: 1;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .province-list::-webkit-scrollbar { width: 3px; }
+    .province-list::-webkit-scrollbar-track { background: transparent; }
+    .province-list::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .province-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      border-left: 3px solid transparent;
+      position: relative;
+    }
+
+    .province-item:hover { background: var(--surface); border-left-color: rgba(208,2,27,0.4); }
+    .province-item.active { background: rgba(208,2,27,0.07); border-left-color: var(--red); }
+
+    .prov-icon {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .province-item.active .prov-icon { border-color: var(--red); background: var(--red-pulse); }
+    .province-item:hover .prov-icon { border-color: rgba(255,255,255,0.15); }
+
+    .prov-icon svg { width: 14px; height: 14px; fill: var(--grey-mid); transition: fill 0.2s; }
+    .province-item.active .prov-icon svg { fill: var(--red); }
+    .province-item:hover .prov-icon svg { fill: var(--grey-light); }
+
+    .prov-info { flex: 1; }
+
+    .prov-name {
+      font-family: var(--font-condensed);
+      font-size: 0.9rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--grey-light);
+      transition: color 0.2s;
+    }
+
+    .province-item.active .prov-name,
+    .province-item:hover .prov-name { color: var(--white); }
+
+    .prov-meta {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      margin-top: 2px;
+    }
+
+    .prov-badge {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      padding: 3px 8px;
+      border-radius: 0;
+      flex-shrink: 0;
+    }
+
+    .prov-badge.regular { background: rgba(0,229,160,0.1); color: var(--green); border: 1px solid rgba(0,229,160,0.2); }
+    .prov-badge.programada { background: rgba(255,179,0,0.1); color: var(--amber); border: 1px solid rgba(255,179,0,0.2); }
+    .prov-badge.luanda { background: rgba(208,2,27,0.12); color: var(--red); border: 1px solid rgba(208,2,27,0.3); }
+
+    /* ========================
+       RIGHT: MAP AREA
+    ======================== */
+    .map-area {
+      position: relative;
+      background: var(--deep);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar */
+    .map-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      height: 52px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      flex-shrink: 0;
+    }
+
+    .topbar-breadcrumb {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem; color: var(--grey);
+    }
+
+    .topbar-breadcrumb span { color: var(--white); }
+    .topbar-breadcrumb .sep { color: var(--red); }
+
+    .topbar-controls {
+      display: flex; align-items: center; gap: 20px;
+    }
+
+    .topbar-legend {
+      display: flex; align-items: center; gap: 16px;
+    }
+
+    .legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.regular { background: var(--green); }
+    .legend-dot.programada { background: var(--amber); }
+    .legend-dot.base { background: var(--red); }
+
+    /* Map container */
+    .map-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    /* Grid overlay on map */
+    .map-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Angola SVG map */
+    #angola-map {
+      width: 100%;
+      height: 100%;
+      max-width: 680px;
+      max-height: calc(100vh - 180px);
+      filter: drop-shadow(0 0 40px rgba(208,2,27,0.06));
+    }
+
+    .province-path {
+      fill: var(--surface);
+      stroke: rgba(255,255,255,0.1);
+      stroke-width: 1;
+      cursor: pointer;
+      transition: fill 0.25s, stroke 0.25s;
+    }
+
+    .province-path:hover {
+      fill: rgba(208,2,27,0.15);
+      stroke: rgba(208,2,27,0.5);
+    }
+
+    .province-path.active {
+      fill: rgba(208,2,27,0.22);
+      stroke: var(--red);
+      stroke-width: 1.5;
+    }
+
+    .province-path.luanda-path {
+      fill: rgba(208,2,27,0.18);
+      stroke: var(--red);
+    }
+
+    /* Province labels on map */
+    .map-label {
+      font-family: var(--font-mono);
+      font-size: 7px;
+      fill: rgba(255,255,255,0.3);
+      text-anchor: middle;
+      pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: fill 0.25s;
+    }
+
+    .map-label.active { fill: rgba(255,255,255,0.9); }
+    .map-label.luanda-label { fill: var(--red); }
+
+    /* Route line animation */
+    .route-line {
+      stroke: var(--red);
+      stroke-width: 1.5;
+      fill: none;
+      stroke-dasharray: 6 4;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .route-line.visible {
+      opacity: 1;
+      stroke-dashoffset: 1000;
+      animation: dash 2s linear infinite;
+    }
+
+    @keyframes dash {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Origin pulse */
+    .origin-pulse {
+      fill: var(--red);
+      opacity: 0;
+      animation: origin-anim 2s ease-in-out infinite;
+    }
+
+    @keyframes origin-anim {
+      0%, 100% { opacity: 0.8; r: 5; }
+      50% { opacity: 0.3; r: 9; }
+    }
+
+    .origin-dot { fill: var(--red); }
+
+    /* ========================
+       DETAIL PANEL (right)
+    ======================== */
+    .detail-panel {
+      position: absolute;
+      top: 52px; right: 0; bottom: 0;
+      width: 300px;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      transform: translateX(100%);
+      transition: transform 0.4s var(--ease);
+      overflow-y: auto;
+      z-index: 10;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .detail-panel.open { transform: translateX(0); }
+
+    .detail-close {
+      position: absolute;
+      top: 16px; left: -36px;
+      width: 36px; height: 36px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-right: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .detail-close:hover { background: var(--red); }
+    .detail-close svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2; }
+
+    .detail-header {
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .detail-prov-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+
+    .detail-prov-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--white); line-height: 1;
+    }
+
+    .detail-prov-region {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--grey-mid);
+      margin-top: 6px;
+    }
+
+    /* Key stats */
+    .detail-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-stat {
+      background: var(--panel);
+      padding: 16px 18px;
+    }
+
+    .detail-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 5px;
+    }
+
+    .detail-stat-val {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--white); line-height: 1;
+    }
+
+    .detail-stat-val.red { color: var(--red); }
+    .detail-stat-val.green { color: var(--green); }
+
+    /* Route info */
+    .detail-section {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-section-title {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 14px;
+    }
+
+    .route-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .route-row:last-child { margin-bottom: 0; }
+
+    .route-row-icon {
+      width: 24px; height: 24px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .route-row-icon svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 1.5; }
+
+    .route-row-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--grey);
+      min-width: 80px;
+    }
+
+    .route-row-val {
+      font-family: var(--font-condensed);
+      font-size: 0.9rem; font-weight: 700;
+      color: var(--white); text-transform: uppercase;
+    }
+
+    /* Checklist */
+    .checklist { display: flex; flex-direction: column; gap: 8px; }
+
+    .check-item {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-body);
+      font-size: 0.82rem; font-weight: 300;
+      color: var(--grey-light);
+    }
+
+    .check-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); flex-shrink: 0;
+    }
+
+    /* CTA */
+    .detail-cta-area {
+      padding: 20px 24px 28px;
+    }
+
+    .detail-cta-main {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      font-family: var(--font-condensed);
+      font-size: 0.85rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--white); background: var(--red);
+      padding: 14px;
+      clip-path: polygon(0 0, 96% 0, 100% 50%, 96% 100%, 0 100%);
+      transition: background 0.2s;
+      border: none; cursor: pointer; text-decoration: none;
+      margin-bottom: 8px;
+    }
+
+    .detail-cta-main:hover { background: #A00015; }
+    .detail-cta-main svg { width: 14px; height: 14px; fill: white; }
+
+    .detail-cta-wa {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #25D366;
+      border: 1px solid rgba(37,211,102,0.25);
+      padding: 12px;
+      transition: all 0.2s; text-decoration: none;
+    }
+    .detail-cta-wa:hover { border-color: #25D366; }
+    .detail-cta-wa svg { width: 14px; height: 14px; fill: #25D366; }
+
+    /* ========================
+       BOTTOM STATS BAR
+    ======================== */
+    .bottom-bar {
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      padding: 0 32px;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .bottom-stats {
+      display: flex; align-items: center; gap: 32px;
+    }
+
+    .bstat {
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .bstat-val {
+      font-family: var(--font-display);
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--white);
+    }
+
+    .bstat-val span { color: var(--red); }
+
+    .bstat-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    .bstat-sep { width: 1px; height: 24px; background: var(--border); }
+
+    .bottom-hint {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      animation: fade-hint 3s ease-in-out infinite;
+    }
+
+    @keyframes fade-hint {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.9; }
+    }
+
+    /* ========================
+       MOBILE: Stack layout
+    ======================== */
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      .sidebar { max-height: 40vh; overflow-y: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      .map-area { min-height: 60vh; }
+      .detail-panel { width: 100%; border-left: none; border-top: 1px solid var(--border); top: auto; bottom: 0; height: 60%; transform: translateY(100%); }
+      .detail-panel.open { transform: translateY(0); }
+      .detail-close { top: -36px; left: 50%; transform: translateX(-50%); width: 60px; border: 1px solid var(--border); border-bottom: none; }
+      .nav-indicator { display: none; }
+      .bottom-stats { gap: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar-header { padding: 20px; }
+      .province-item { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 20 20"><path d="M2 10 L10 4 L18 10 L18 16 L13 16 L13 12 L7 12 L7 16 L2 16 Z"/></svg>
+      </div>
+      <div class="nav-title">Abel Costa Transportes</div>
+      <div class="nav-sep"></div>
+      <div class="nav-page">Cobertura Nacional</div>
+    </div>
+    <div class="nav-right">
+      <div class="nav-indicator">
+        <div class="indicator-dot"></div>
+        <span>18 PROVÍNCIAS · ONLINE</span>
+      </div>
+      <a href="abel-costa-transportes.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+      </a>
+    </div>
+  </nav>
+
+  <!-- APP LAYOUT -->
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-tag">Sistema de Rotas</div>
+        <div class="sidebar-title">Cobertura<br><span>Nacional</span></div>
+        <p class="sidebar-sub">Seleccione uma província no mapa ou na lista para ver detalhes de rota, prazo e condições de entrega.</p>
+      </div>
+
+      <div class="province-counter">
+        <span class="counter-label">Províncias cobertas</span>
+        <span class="counter-val">18 / 18 — 100%</span>
+      </div>
+
+      <div class="province-list" id="provinceList">
+        <!-- Populated by JS -->
+      </div>
+    </aside>
+
+    <!-- MAP AREA -->
+    <div class="map-area">
+
+      <!-- Top bar -->
+      <div class="map-topbar">
+        <div class="topbar-breadcrumb">
+          ACT <span class="sep">/</span> ROTAS <span class="sep">/</span> <span id="topbarProvince">SELECCIONE UMA PROVÍNCIA</span>
+        </div>
+        <div class="topbar-controls">
+          <div class="topbar-legend">
+            <div class="legend-item"><div class="legend-dot base"></div>Base Luanda</div>
+            <div class="legend-item"><div class="legend-dot regular"></div>Rota regular</div>
+            <div class="legend-item"><div class="legend-dot programada"></div>Rota programada</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-container">
+        <div class="map-grid"></div>
+
+        <svg id="angola-map" viewBox="0 0 500 560" xmlns="http://www.w3.org/2000/svg" aria-label="Mapa de Angola com províncias interactivas">
+
+          <!-- ANGOLA SVG — 18 províncias desenhadas proporcionalmente -->
+
+          <!-- Zaire -->
+          <path class="province-path" id="path-zaire" data-prov="zaire"
+            d="M60,30 L130,30 L145,50 L140,80 L120,95 L90,90 L65,75 Z" />
+          <text class="map-label" id="label-zaire" x="100" y="65">Zaire</text>
+
+          <!-- Cabinda (exclave) -->
+          <path class="province-path" id="path-cabinda" data-prov="cabinda"
+            d="M35,10 L75,10 L80,35 L55,40 L30,30 Z" />
+          <text class="map-label" id="label-cabinda" x="55" y="26">Cabinda</text>
+
+          <!-- Uíge -->
+          <path class="province-path" id="path-uige" data-prov="uige"
+            d="M130,30 L215,28 L220,60 L200,90 L170,95 L145,80 L140,50 Z" />
+          <text class="map-label" id="label-uige" x="178" y="62">Uíge</text>
+
+          <!-- Luanda (BASE) -->
+          <path class="province-path luanda-path" id="path-luanda" data-prov="luanda"
+            d="M90,90 L120,95 L130,115 L110,130 L85,120 Z" />
+          <text class="map-label luanda-label" id="label-luanda" x="107" y="112">Luanda</text>
+
+          <!-- Bengo -->
+          <path class="province-path" id="path-bengo" data-prov="bengo"
+            d="M120,95 L200,90 L210,130 L190,160 L155,155 L130,140 L130,115 Z" />
+          <text class="map-label" id="label-bengo" x="165" y="128">Bengo</text>
+
+          <!-- Kwanza Norte -->
+          <path class="province-path" id="path-kwanza-norte" data-prov="kwanza-norte"
+            d="M200,90 L270,88 L278,120 L260,150 L230,155 L210,130 Z" />
+          <text class="map-label" id="label-kwanza-norte" x="240" y="122">Kw. Norte</text>
+
+          <!-- Malanje -->
+          <path class="province-path" id="path-malanje" data-prov="malanje"
+            d="M215,28 L320,30 L330,80 L310,120 L278,120 L270,88 L220,60 Z" />
+          <text class="map-label" id="label-malanje" x="272" y="78">Malanje</text>
+
+          <!-- Lunda Norte -->
+          <path class="province-path" id="path-lunda-norte" data-prov="lunda-norte"
+            d="M320,30 L430,32 L435,110 L390,120 L350,115 L330,80 Z" />
+          <text class="map-label" id="label-lunda-norte" x="378" y="76">Lunda Norte</text>
+
+          <!-- Lunda Sul -->
+          <path class="province-path" id="path-lunda-sul" data-prov="lunda-sul"
+            d="M350,115 L390,120 L435,110 L438,190 L390,195 L345,180 Z" />
+          <text class="map-label" id="label-lunda-sul" x="392" y="155">Lunda Sul</text>
+
+          <!-- Kwanza Sul -->
+          <path class="province-path" id="path-kwanza-sul" data-prov="kwanza-sul"
+            d="M130,140 L155,155 L190,160 L195,210 L165,240 L130,235 L105,210 L110,175 Z" />
+          <text class="map-label" id="label-kwanza-sul" x="150" y="195">Kw. Sul</text>
+
+          <!-- Bié -->
+          <path class="province-path" id="path-bie" data-prov="bie"
+            d="M260,150 L310,120 L345,180 L340,230 L300,240 L270,235 L255,205 Z" />
+          <text class="map-label" id="label-bie" x="305" y="190">Bié</text>
+
+          <!-- Moxico -->
+          <path class="province-path" id="path-moxico" data-prov="moxico"
+            d="M345,180 L390,195 L438,190 L442,310 L390,325 L340,310 L340,230 Z" />
+          <text class="map-label" id="label-moxico" x="392" y="255">Moxico</text>
+
+          <!-- Benguela -->
+          <path class="province-path" id="path-benguela" data-prov="benguela"
+            d="M105,210 L130,235 L130,270 L110,295 L80,280 L75,250 Z" />
+          <text class="map-label" id="label-benguela" x="102" y="255">Benguela</text>
+
+          <!-- Huambo -->
+          <path class="province-path" id="path-huambo" data-prov="huambo"
+            d="M130,235 L165,240 L195,210 L230,220 L235,265 L210,285 L175,290 L148,278 L130,270 Z" />
+          <text class="map-label" id="label-huambo" x="182" y="258">Huambo</text>
+
+          <!-- Cuando Cubango -->
+          <path class="province-path" id="path-cuando-cubango" data-prov="cuando-cubango"
+            d="M270,235 L300,240 L340,230 L340,310 L390,325 L385,410 L310,420 L245,400 L242,330 Z" />
+          <text class="map-label" id="label-cuando-cubango" x="315" y="330">C. Cubango</text>
+
+          <!-- Huíla -->
+          <path class="province-path" id="path-huila" data-prov="huila"
+            d="M80,280 L110,295 L148,278 L175,290 L210,285 L235,265 L242,330 L215,355 L170,360 L130,345 L95,315 Z" />
+          <text class="map-label" id="label-huila" x="165" y="318">Huíla</text>
+
+          <!-- Namibe -->
+          <path class="province-path" id="path-namibe" data-prov="namibe"
+            d="M40,290 L80,280 L95,315 L90,355 L60,370 L35,345 Z" />
+          <text class="map-label" id="label-namibe" x="62" y="328">Namibe</text>
+
+          <!-- Cunene -->
+          <path class="province-path" id="path-cunene" data-prov="cunene"
+            d="M60,370 L90,355 L130,345 L170,360 L215,355 L245,400 L230,440 L180,455 L120,450 L65,430 Z" />
+          <text class="map-label" id="label-cunene" x="152" y="408">Cunene</text>
+
+          <!-- Rota animada de Luanda ao destino -->
+          <line class="route-line" id="routeLine"
+            x1="107" y1="109"
+            x2="107" y2="109" />
+
+          <!-- Pulso de origem Luanda -->
+          <circle class="origin-pulse" cx="107" cy="109" r="7" />
+          <circle class="origin-dot" cx="107" cy="109" r="4" />
+
+          <!-- Destino dot (posicionado por JS) -->
+          <circle id="destDot" cx="0" cy="0" r="5" fill="var(--red)" opacity="0" />
+
+        </svg>
+      </div>
+
+      <!-- Detail panel -->
+      <div class="detail-panel" id="detailPanel">
+        <div class="detail-close" onclick="closeDetail()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+
+        <div class="detail-header">
+          <div class="detail-prov-tag" id="detailTag">—</div>
+          <div class="detail-prov-name" id="detailName">—</div>
+          <div class="detail-prov-region" id="detailRegion">—</div>
+        </div>
+
+        <div class="detail-stats" id="detailStats"></div>
+
+        <div class="detail-section" id="detailRoute"></div>
+
+        <div class="detail-section" id="detailServices"></div>
+
+        <div class="detail-cta-area">
+          <a id="detailCtaMain" href="abel-costa-transportes.html#orcamento" class="detail-cta-main">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Solicitar Orçamento
+          </a>
+          <a id="detailCtaWa" href="#" target="_blank" class="detail-cta-wa">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
+            Confirmar via WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="bottom-bar">
+        <div class="bottom-stats">
+          <div class="bstat">
+            <div>
+              <div class="bstat-val">18<span>+</span></div>
+              <div class="bstat-label">Províncias</div>
+            </div>
+          </div>
+          <div class="bstat-sep"></div>
+          <div class="bstat">
+            <div>
+              <div class="bstat-val">1.500<span>km</span></div>
+              <div class="bstat-label">Rota mais longa</div>
+            </div>
+          </div>
+          <div class="bstat-sep"></div>
+          <div class="bstat">
+            <div>
+              <div class="bstat-val">24<span>h</span></div>
+              <div class="bstat-label">Resposta mín.</div>
+            </div>
+          </div>
+          <div class="bstat-sep"></div>
+          <div class="bstat">
+            <div>
+              <div class="bstat-val">98<span>%</span></div>
+              <div class="bstat-label">Pontualidade</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-hint">▸ CLIQUE NUMA PROVÍNCIA PARA VER DETALHES DA ROTA</div>
+      </div>
+
+    </div><!-- /map-area -->
+  </div><!-- /app-layout -->
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ========================
+    // PROVINCE DATA
+    // ========================
+    const provinces = {
+      luanda: {
+        name: 'Luanda',
+        region: 'Base de Operações — Sede ACT',
+        tipo: 'luanda',
+        tipoBadge: 'luanda',
+        cx: 107, cy: 109,
+        distancia: '—',
+        prazo: 'Colecta local',
+        frequencia: 'Diária',
+        precoBase: 'A consultar',
+        rotas: ['Luanda Centro', 'Viana', 'Cacuaco', 'Belas', 'Cazenga'],
+        servicos: ['Colecta e entrega urbana', 'Distribuição local', 'Armazenamento temporário', 'Logística last-mile'],
+        status: 'Base',
+      },
+      cabinda: {
+        name: 'Cabinda',
+        region: 'Região Norte — Exclave',
+        tipo: 'programada',
+        tipoBadge: 'programada',
+        cx: 55, cy: 24,
+        distancia: '740 km',
+        prazo: '2–3 dias',
+        frequencia: '2× semana',
+        precoBase: 'Kz 180.000+',
+        rotas: ['Cabinda cidade', 'Belize', 'Landana'],
+        servicos: ['Transporte de carga geral', 'Logística empresarial', 'Serviço expresso disponível'],
+        status: 'Programada',
+      },
+      zaire: {
+        name: 'Zaire',
+        region: 'Região Norte',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 100, cy: 62,
+        distancia: '480 km',
+        prazo: '1–2 dias',
+        frequencia: '3× semana',
+        precoBase: 'Kz 130.000+',
+        rotas: ['M\'Banza Kongo', 'Soyo', 'Nzeto'],
+        servicos: ['Transporte de carga geral', 'Distribuição regional', 'Carga pesada'],
+        status: 'Regular',
+      },
+      uige: {
+        name: 'Uíge',
+        region: 'Região Norte',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 178, cy: 60,
+        distancia: '320 km',
+        prazo: '1 dia',
+        frequencia: 'Diária',
+        precoBase: 'Kz 90.000+',
+        rotas: ['Uíge cidade', 'Negage', 'Quimbele'],
+        servicos: ['Transporte de carga geral', 'Distribuição regional', 'Logística empresarial'],
+        status: 'Regular',
+      },
+      bengo: {
+        name: 'Bengo',
+        region: 'Região Norte-Centro',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 165, cy: 126,
+        distancia: '80 km',
+        prazo: 'Mesmo dia',
+        frequencia: 'Diária',
+        precoBase: 'Kz 35.000+',
+        rotas: ['Caxito', 'Panguila', 'Barra do Dande', 'Muxaluando'],
+        servicos: ['Transporte de carga geral', 'Distribuição local', 'Serviço expresso disponível', 'Logística empresarial'],
+        status: 'Regular',
+      },
+      'kwanza-norte': {
+        name: 'Kwanza Norte',
+        region: 'Região Centro-Norte',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 240, cy: 120,
+        distancia: '220 km',
+        prazo: '1 dia',
+        frequencia: '5× semana',
+        precoBase: 'Kz 70.000+',
+        rotas: ['N\'dalatando', 'Lucala', 'Cazengo'],
+        servicos: ['Transporte de carga geral', 'Distribuição regional', 'Carga agrícola'],
+        status: 'Regular',
+      },
+      malanje: {
+        name: 'Malanje',
+        region: 'Região Centro-Norte',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 272, cy: 76,
+        distancia: '380 km',
+        prazo: '1 dia',
+        frequencia: 'Diária',
+        precoBase: 'Kz 105.000+',
+        rotas: ['Malanje cidade', 'Cacuso', 'Kiwaba Nzoji'],
+        servicos: ['Transporte de carga geral', 'Logística empresarial', 'Distribuição regional'],
+        status: 'Regular',
+      },
+      'lunda-norte': {
+        name: 'Lunda Norte',
+        region: 'Região Leste',
+        tipo: 'programada',
+        tipoBadge: 'programada',
+        cx: 378, cy: 74,
+        distancia: '1.080 km',
+        prazo: '3–4 dias',
+        frequencia: '1× semana',
+        precoBase: 'Kz 280.000+',
+        rotas: ['Dundo', 'Chitato', 'Cuango'],
+        servicos: ['Transporte de carga geral', 'Carga mineira', 'Serviço especial'],
+        status: 'Programada',
+      },
+      'lunda-sul': {
+        name: 'Lunda Sul',
+        region: 'Região Leste',
+        tipo: 'programada',
+        tipoBadge: 'programada',
+        cx: 392, cy: 153,
+        distancia: '1.200 km',
+        prazo: '3–4 dias',
+        frequencia: '1× semana',
+        precoBase: 'Kz 310.000+',
+        rotas: ['Saurimo', 'Muconda', 'Dala'],
+        servicos: ['Transporte de carga geral', 'Carga mineira', 'Serviço especial'],
+        status: 'Programada',
+      },
+      'kwanza-sul': {
+        name: 'Kwanza Sul',
+        region: 'Região Centro',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 150, cy: 193,
+        distancia: '350 km',
+        prazo: '1 dia',
+        frequencia: 'Diária',
+        precoBase: 'Kz 95.000+',
+        rotas: ['Sumbe', 'Porto Amboim', 'Waku Kungo'],
+        servicos: ['Transporte de carga geral', 'Logística empresarial', 'Distribuição regional'],
+        status: 'Regular',
+      },
+      bie: {
+        name: 'Bié',
+        region: 'Região Centro-Leste',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 305, cy: 188,
+        distancia: '850 km',
+        prazo: '2 dias',
+        frequencia: '3× semana',
+        precoBase: 'Kz 220.000+',
+        rotas: ['Kuito', 'Chitembo', 'Camacupa'],
+        servicos: ['Transporte de carga geral', 'Distribuição regional', 'Carga pesada'],
+        status: 'Regular',
+      },
+      moxico: {
+        name: 'Moxico',
+        region: 'Região Leste',
+        tipo: 'programada',
+        tipoBadge: 'programada',
+        cx: 392, cy: 253,
+        distancia: '1.400 km',
+        prazo: '4–5 dias',
+        frequencia: '2× semana',
+        precoBase: 'Kz 360.000+',
+        rotas: ['Luena', 'Cazombo', 'Lumeje'],
+        servicos: ['Transporte de carga geral', 'Serviço especial', 'Carga pesada'],
+        status: 'Programada',
+      },
+      benguela: {
+        name: 'Benguela',
+        region: 'Região Centro-Oeste',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 100, cy: 252,
+        distancia: '600 km',
+        prazo: '1–2 dias',
+        frequencia: 'Diária',
+        precoBase: 'Kz 155.000+',
+        rotas: ['Benguela cidade', 'Lobito', 'Balombo', 'Caimbambo'],
+        servicos: ['Transporte de carga geral', 'Logística empresarial', 'Distribuição regional', 'Frigorífico disponível'],
+        status: 'Regular',
+      },
+      huambo: {
+        name: 'Huambo',
+        region: 'Região Centro',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 182, cy: 256,
+        distancia: '720 km',
+        prazo: '1–2 dias',
+        frequencia: 'Diária',
+        precoBase: 'Kz 185.000+',
+        rotas: ['Huambo cidade', 'Caála', 'Longonjo', 'Chinjenje'],
+        servicos: ['Transporte de carga geral', 'Logística empresarial', 'Distribuição regional', 'Carga agrícola'],
+        status: 'Regular',
+      },
+      'cuando-cubango': {
+        name: 'Cuando Cubango',
+        region: 'Região Sul-Leste',
+        tipo: 'programada',
+        tipoBadge: 'programada',
+        cx: 315, cy: 328,
+        distancia: '1.300 km',
+        prazo: '3–4 dias',
+        frequencia: '2× semana',
+        precoBase: 'Kz 340.000+',
+        rotas: ['Menongue', 'Cuito Cuanavale', 'Mavinga'],
+        servicos: ['Transporte de carga geral', 'Serviço especial', 'Carga pesada'],
+        status: 'Programada',
+      },
+      huila: {
+        name: 'Huíla',
+        region: 'Região Sul',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 165, cy: 316,
+        distancia: '1.050 km',
+        prazo: '2 dias',
+        frequencia: '3× semana',
+        precoBase: 'Kz 270.000+',
+        rotas: ['Lubango', 'Matala', 'Chibia', 'Quilengues'],
+        servicos: ['Transporte de carga geral', 'Logística empresarial', 'Distribuição regional'],
+        status: 'Regular',
+      },
+      namibe: {
+        name: 'Namibe',
+        region: 'Região Sul-Oeste',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 60, cy: 325,
+        distancia: '1.100 km',
+        prazo: '2 dias',
+        frequencia: '3× semana',
+        precoBase: 'Kz 285.000+',
+        rotas: ['Moçâmedes', 'Virei', 'Bibala'],
+        servicos: ['Transporte de carga geral', 'Carga portuária', 'Distribuição regional'],
+        status: 'Regular',
+      },
+      cunene: {
+        name: 'Cunene',
+        region: 'Região Sul — Fronteira Namíbia',
+        tipo: 'regular',
+        tipoBadge: 'regular',
+        cx: 150, cy: 405,
+        distancia: '1.350 km',
+        prazo: '2–3 dias',
+        frequencia: '2× semana',
+        precoBase: 'Kz 345.000+',
+        rotas: ['Ondjiva', 'Xangongo', 'Cahama', 'Cuanhama'],
+        servicos: ['Transporte de carga geral', 'Distribuição regional', 'Carga pesada'],
+        status: 'Regular',
+      },
+    };
+
+    // ========================
+    // BUILD SIDEBAR LIST
+    // ========================
+    const list = document.getElementById('provinceList');
+    const sortedKeys = ['luanda', 'bengo', 'malanje', 'uige', 'zaire', 'cabinda', 'kwanza-norte', 'kwanza-sul', 'benguela', 'huambo', 'bie', 'lunda-norte', 'lunda-sul', 'moxico', 'cuando-cubango', 'huila', 'namibe', 'cunene'];
+
+    sortedKeys.forEach(key => {
+      const p = provinces[key];
+      const item = document.createElement('div');
+      item.className = 'province-item' + (key === 'luanda' ? ' active' : '');
+      item.dataset.prov = key;
+      item.innerHTML = `
+        <div class="prov-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="prov-info">
+          <div class="prov-name">${p.name}</div>
+          <div class="prov-meta">${p.distancia !== '—' ? p.distancia + ' · ' : ''}${p.prazo}</div>
+        </div>
+        <div class="prov-badge ${p.tipoBadge}">${p.status}</div>
+      `;
+      item.addEventListener('click', () => selectProvince(key));
+      list.appendChild(item);
+    });
+
+    // ========================
+    // MAP INTERACTIONS
+    // ========================
+    document.querySelectorAll('.province-path').forEach(path => {
+      path.addEventListener('click', () => {
+        const prov = path.dataset.prov;
+        if (prov) selectProvince(prov);
+      });
+    });
+
+    let activeProvince = null;
+
+    function selectProvince(key) {
+      const p = provinces[key];
+      if (!p) return;
+      activeProvince = key;
+
+      // Update sidebar items
+      document.querySelectorAll('.province-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.prov === key);
+      });
+
+      // Update map paths
+      document.querySelectorAll('.province-path').forEach(path => {
+        path.classList.remove('active');
+        if (key !== 'luanda') path.classList.remove('luanda-path');
+      });
+
+      const activePath = document.getElementById('path-' + key);
+      if (activePath) activePath.classList.add('active');
+
+      // Update map labels
+      document.querySelectorAll('.map-label').forEach(l => l.classList.remove('active'));
+      const activeLabel = document.getElementById('label-' + key);
+      if (activeLabel) activeLabel.classList.add('active');
+
+      // Animate route line from Luanda (107,109) to destination
+      const routeLine = document.getElementById('routeLine');
+      const destDot = document.getElementById('destDot');
+
+      if (key === 'luanda') {
+        routeLine.setAttribute('x2', '107');
+        routeLine.setAttribute('y2', '109');
+        routeLine.classList.remove('visible');
+        destDot.setAttribute('opacity', '0');
+      } else {
+        routeLine.setAttribute('x2', p.cx);
+        routeLine.setAttribute('y2', p.cy);
+        routeLine.classList.remove('visible');
+        void routeLine.offsetWidth;
+        routeLine.classList.add('visible');
+        destDot.setAttribute('cx', p.cx);
+        destDot.setAttribute('cy', p.cy);
+        destDot.setAttribute('opacity', '1');
+      }
+
+      // Top bar
+      document.getElementById('topbarProvince').textContent = p.name.toUpperCase();
+
+      // Build detail panel
+      buildDetail(key, p);
+      document.getElementById('detailPanel').classList.add('open');
+
+      // Scroll sidebar item into view
+      const sidebarItem = list.querySelector(`[data-prov="${key}"]`);
+      if (sidebarItem) sidebarItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function buildDetail(key, p) {
+      document.getElementById('detailTag').textContent = `ACT · ${p.status.toUpperCase()}`;
+      document.getElementById('detailName').textContent = p.name;
+      document.getElementById('detailRegion').textContent = p.region;
+
+      // Stats
+      document.getElementById('detailStats').innerHTML = `
+        <div class="detail-stat">
+          <div class="detail-stat-label">Distância</div>
+          <div class="detail-stat-val red">${p.distancia}</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-label">Prazo</div>
+          <div class="detail-stat-val">${p.prazo}</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-label">Frequência</div>
+          <div class="detail-stat-val green">${p.frequencia}</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-label">Preço Base</div>
+          <div class="detail-stat-val">${p.precoBase}</div>
+        </div>
+      `;
+
+      // Route info
+      document.getElementById('detailRoute').innerHTML = `
+        <div class="detail-section-title">Pontos de Entrega</div>
+        <div class="checklist">
+          ${p.rotas.map(r => `<div class="check-item"><div class="check-dot"></div>${r}</div>`).join('')}
+        </div>
+      `;
+
+      // Services
+      document.getElementById('detailServices').innerHTML = `
+        <div class="detail-section-title">Serviços Disponíveis</div>
+        <div class="checklist">
+          ${p.servicos.map(s => `<div class="check-item"><div class="check-dot" style="background:var(--red)"></div>${s}</div>`).join('')}
+        </div>
+      `;
+
+      // WhatsApp link
+      const msg = encodeURIComponent(`Olá, gostaria de solicitar um orçamento para transporte de carga com destino a ${p.name}.\n\nDistância: ${p.distancia}\nPrazo esperado: ${p.prazo}\n\nPodem contactar-me?`);
+      document.getElementById('detailCtaWa').href = `https://wa.me/244923799799?text=${msg}`;
+    }
+
+    function closeDetail() {
+      document.getElementById('detailPanel').classList.remove('open');
+      document.querySelectorAll('.province-path').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.map-label').forEach(l => l.classList.remove('active'));
+      document.getElementById('routeLine').classList.remove('visible');
+      document.getElementById('destDot').setAttribute('opacity', '0');
+      document.getElementById('topbarProvince').textContent = 'SELECCIONE UMA PROVÍNCIA';
+      document.querySelectorAll('.province-item').forEach(el => el.classList.remove('active'));
+      activeProvince = null;
+    }
+
+    // Open Luanda by default after load
+    window.addEventListener('load', () => {
+      setTimeout(() => selectProvince('bengo'), 600);
+    });
+  </script>
+</body>
+</html>

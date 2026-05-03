@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Nossa Frota | Abel Costa Transportes</title>
+  <meta name="description" content="Conheça a frota da Abel Costa Transportes. Viaturas modernas, bem conservadas e rastreadas para transporte de carga em Angola." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow+Condensed:wght@400;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red: #D0021B;
+      --red-dark: #A00015;
+      --red-light: #FF1A35;
+      --black: #0A0A0A;
+      --ink: #111111;
+      --white: #FFFFFF;
+      --paper: #F2F0EB;
+      --paper-dark: #E8E5DE;
+      --steel: #C8C4BC;
+      --grey: #888880;
+      --grey-dark: #555550;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-condensed: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ========================
+       NOISE TEXTURE OVERLAY
+    ======================== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ========================
+       NAV
+    ======================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6vw;
+      background: var(--ink);
+      border-bottom: 3px solid var(--red);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-logo-mark {
+      width: 36px; height: 36px;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+
+    .nav-logo-mark svg { width: 18px; height: 18px; fill: white; }
+
+    .nav-logo-text {}
+    .nav-logo-text span:first-child {
+      font-family: var(--font-condensed);
+      font-size: 1rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--white); display: block; line-height: 1.1;
+    }
+    .nav-logo-text span:last-child {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      letter-spacing: 0.06em;
+    }
+
+    .nav-center {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .nav-right {
+      display: flex; align-items: center; gap: 20px;
+    }
+
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--grey);
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--white); }
+    .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .nav-cta {
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--white);
+      background: var(--red);
+      padding: 8px 20px;
+      clip-path: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--red-light); }
+
+    /* ========================
+       HERO HEADER
+    ======================== */
+    .page-hero {
+      padding-top: 68px;
+      background: var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-lines {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,0.03) 0,
+        rgba(255,255,255,0.03) 1px,
+        transparent 1px,
+        transparent 80px
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 80px 6vw 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: flex-end;
+      gap: 40px;
+    }
+
+    .hero-left {}
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow-line { width: 32px; height: 2px; background: var(--red); }
+
+    .eyebrow-text {
+      font-family: var(--font-mono);
+      font-size: 0.72rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.15em;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 12vw, 12rem);
+      line-height: 0.88;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-title-accent { color: var(--red); }
+
+    .hero-right {
+      padding-bottom: 24px;
+      text-align: right;
+      max-width: 300px;
+    }
+
+    .hero-right p {
+      font-family: var(--font-body);
+      font-size: 0.9rem; font-weight: 300;
+      line-height: 1.7; color: rgba(255,255,255,0.45);
+    }
+
+    /* Stats bar */
+    .hero-stats-bar {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 48px;
+    }
+
+    .hero-stat {
+      padding: 28px 32px;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+
+    .hero-stat:last-child { border-right: none; }
+
+    .hero-stat-val {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .hero-stat-val em { font-style: normal; color: var(--red); }
+
+    .hero-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* ========================
+       FILTER BAR
+    ======================== */
+    .filter-bar {
+      background: var(--paper-dark);
+      border-bottom: 1px solid var(--steel);
+      padding: 0 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      position: sticky;
+      top: 68px;
+      z-index: 50;
+    }
+
+    .filter-tabs {
+      display: flex;
+    }
+
+    .filter-tab {
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--grey);
+      padding: 18px 24px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      background: none; border-top: none; border-left: none; border-right: none;
+      border-bottom: 3px solid transparent;
+    }
+
+    .filter-tab:hover { color: var(--ink); }
+    .filter-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+    .filter-count {
+      font-family: var(--font-mono);
+      font-size: 0.68rem; color: var(--grey);
+      margin-left: 8px;
+    }
+
+    .filter-right {
+      font-family: var(--font-mono);
+      font-size: 0.68rem; color: var(--grey);
+      white-space: nowrap;
+    }
+
+    /* ========================
+       FLEET LAYOUT
+    ======================== */
+    .fleet-wrapper {
+      padding: 60px 6vw 100px;
+    }
+
+    /* Featured vehicle — full width editorial */
+    .vehicle-featured {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 0;
+      margin-bottom: 3px;
+      border: 1px solid var(--steel);
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+
+    .vehicle-featured:hover {
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+    }
+
+    .vehicle-image-wrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    .vehicle-image {
+      width: 100%; height: 100%; min-height: 440px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.75) saturate(0.7);
+      transition: transform 0.6s var(--ease), filter 0.4s;
+    }
+
+    .vehicle-featured:hover .vehicle-image {
+      transform: scale(1.04);
+      filter: brightness(0.65) saturate(0.5);
+    }
+
+    .vehicle-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, rgba(242,240,235,0.95));
+    }
+
+    .vehicle-badge {
+      position: absolute;
+      top: 28px; left: 28px;
+      background: var(--red);
+      color: white;
+      font-family: var(--font-condensed);
+      font-size: 0.7rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      padding: 6px 16px;
+      clip-path: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+    }
+
+    .vehicle-id {
+      position: absolute;
+      bottom: 24px; left: 28px;
+      font-family: var(--font-display);
+      font-size: 5rem;
+      color: rgba(255,255,255,0.06);
+      line-height: 1;
+    }
+
+    .vehicle-spec-panel {
+      background: var(--paper);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--steel);
+    }
+
+    .spec-header {}
+
+    .spec-category {
+      font-family: var(--font-mono);
+      font-size: 0.68rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .spec-model {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      line-height: 0.95;
+      color: var(--ink);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .spec-subtitle {
+      font-family: var(--font-condensed);
+      font-size: 0.9rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--grey);
+      margin-bottom: 20px;
+    }
+
+    .spec-desc {
+      font-family: var(--font-body);
+      font-size: 0.88rem; font-weight: 300;
+      line-height: 1.7; color: var(--grey-dark);
+      margin-bottom: 32px;
+    }
+
+    /* Spec grid */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--steel);
+      border: 1px solid var(--steel);
+      margin-bottom: 28px;
+    }
+
+    .spec-item {
+      background: var(--paper);
+      padding: 14px 16px;
+    }
+
+    .spec-item-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .spec-item-val {
+      font-family: var(--font-condensed);
+      font-size: 1rem; font-weight: 800;
+      color: var(--ink);
+      text-transform: uppercase; letter-spacing: 0.02em;
+    }
+
+    /* Status indicator */
+    .spec-status {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #00C853;
+      box-shadow: 0 0 0 3px rgba(0,200,83,0.2);
+      animation: pulse-green 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .status-dot.manutencao { background: #FF9800; box-shadow: 0 0 0 3px rgba(255,152,0,0.2); }
+    .status-dot.reservada { background: var(--red); box-shadow: 0 0 0 3px rgba(208,2,27,0.2); }
+
+    @keyframes pulse-green {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(0,200,83,0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(0,200,83,0.1); }
+    }
+
+    .status-text {
+      font-family: var(--font-mono);
+      font-size: 0.7rem; color: var(--grey-dark);
+      letter-spacing: 0.05em;
+    }
+
+    .spec-cta {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px;
+      font-family: var(--font-condensed);
+      font-size: 0.85rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--white);
+      background: var(--red);
+      padding: 14px 28px;
+      clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%);
+      transition: background 0.2s;
+      cursor: pointer; border: none; width: 100%;
+    }
+
+    .spec-cta:hover { background: var(--red-dark); }
+    .spec-cta svg { width: 16px; height: 16px; fill: white; flex-shrink: 0; }
+
+    /* ========================
+       SECONDARY GRID
+    ======================== */
+    .vehicles-secondary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      margin-bottom: 3px;
+    }
+
+    .vehicle-card {
+      background: var(--paper);
+      border: 1px solid var(--steel);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.3s var(--ease);
+      position: relative;
+    }
+
+    .vehicle-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      z-index: 2;
+    }
+
+    .card-image-wrap {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    .card-image {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.72) saturate(0.65);
+      transition: transform 0.5s var(--ease), filter 0.35s;
+    }
+
+    .vehicle-card:hover .card-image {
+      transform: scale(1.06);
+      filter: brightness(0.6) saturate(0.5);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: var(--red);
+      color: white;
+      font-family: var(--font-condensed);
+      font-size: 0.65rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 4px 12px;
+      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+    }
+
+    .card-id-bg {
+      position: absolute;
+      bottom: 8px; right: 12px;
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      color: rgba(255,255,255,0.07);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    /* Blueprint overlay on hover */
+    .card-blueprint {
+      position: absolute;
+      inset: 0;
+      background: rgba(208,2,27,0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .vehicle-card:hover .card-blueprint { opacity: 1; }
+
+    .blueprint-icon svg { width: 36px; height: 36px; fill: none; stroke: white; stroke-width: 1.5; }
+
+    .blueprint-text {
+      font-family: var(--font-condensed);
+      font-size: 0.78rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: white;
+    }
+
+    .card-body {
+      padding: 24px 24px 20px;
+    }
+
+    .card-category {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+
+    .card-model {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--ink);
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--grey); text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .card-specs-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--steel);
+      border: 1px solid var(--steel);
+      margin-bottom: 16px;
+    }
+
+    .card-spec {
+      background: var(--paper-dark);
+      padding: 10px 12px;
+    }
+
+    .card-spec-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 3px;
+    }
+
+    .card-spec-val {
+      font-family: var(--font-condensed);
+      font-size: 0.9rem; font-weight: 800;
+      color: var(--ink); text-transform: uppercase;
+    }
+
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--paper-dark);
+    }
+
+    .card-status {
+      display: flex; align-items: center; gap: 7px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--grey-dark);
+    }
+
+    .card-status-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #00C853; flex-shrink: 0;
+    }
+    .card-status-dot.manutencao { background: #FF9800; }
+    .card-status-dot.reservada { background: var(--red); }
+
+    .card-link {
+      font-family: var(--font-condensed);
+      font-size: 0.75rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--red);
+      display: flex; align-items: center; gap: 6px;
+      transition: gap 0.2s;
+    }
+
+    .card-link:hover { gap: 10px; }
+    .card-link svg { width: 14px; height: 14px; stroke: var(--red); fill: none; stroke-width: 2; }
+
+    /* ========================
+       WIDE CARD (1/2 width)
+    ======================== */
+    .vehicles-wide {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+    }
+
+    .vehicle-wide {
+      background: var(--paper);
+      border: 1px solid var(--steel);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 260px auto;
+      transition: box-shadow 0.3s;
+    }
+
+    .vehicle-wide:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+
+    .vehicle-wide .card-image-wrap { height: 100%; }
+
+    /* ========================
+       FLEET STATS STRIP
+    ======================== */
+    .fleet-stats {
+      margin-top: 60px;
+      background: var(--ink);
+      padding: 60px 6vw;
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .fleet-stats-title {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--white);
+      text-transform: uppercase;
+      line-height: 0.95;
+    }
+
+    .fleet-stats-title em { font-style: normal; color: var(--red); display: block; }
+
+    .fleet-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .fleet-stat-item {
+      background: var(--ink);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fleet-stat-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease);
+    }
+
+    .fleet-stat-item:hover::before { transform: scaleX(1); }
+
+    .fstat-val {
+      font-family: var(--font-display);
+      font-size: 3rem; color: var(--white);
+      line-height: 1;
+    }
+
+    .fstat-val span { color: var(--red); }
+
+    .fstat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    /* ========================
+       MANUTENCAO STRIP
+    ======================== */
+    .maintenance-strip {
+      margin-top: 60px;
+      padding: 48px 6vw;
+      background: var(--paper-dark);
+      border-top: 1px solid var(--steel);
+      border-bottom: 1px solid var(--steel);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .maint-left {
+      display: flex; align-items: center; gap: 24px;
+    }
+
+    .maint-icon {
+      width: 56px; height: 56px;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .maint-icon svg { width: 26px; height: 26px; stroke: var(--red); fill: none; stroke-width: 1.5; }
+
+    .maint-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem; color: var(--ink);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .maint-text {
+      font-family: var(--font-body);
+      font-size: 0.88rem; font-weight: 300;
+      color: var(--grey-dark); line-height: 1.6;
+      max-width: 480px;
+    }
+
+    .maint-cta {
+      font-family: var(--font-condensed);
+      font-size: 0.85rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--white);
+      background: var(--ink);
+      padding: 14px 32px;
+      clip-path: polygon(0 0, 93% 0, 100% 50%, 93% 100%, 0 100%);
+      transition: background 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .maint-cta:hover { background: var(--red); }
+
+    /* ========================
+       CTA FOOTER
+    ======================== */
+    .cta-footer {
+      background: var(--red);
+      padding: 80px 6vw;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-footer::before {
+      content: 'FROTA';
+      position: absolute;
+      right: -20px; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: 14rem;
+      color: rgba(0,0,0,0.08);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .cta-footer-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 4rem);
+      color: var(--white);
+      text-transform: uppercase;
+      line-height: 0.95;
+      position: relative; z-index: 1;
+    }
+
+    .cta-footer-sub {
+      font-family: var(--font-body);
+      font-size: 0.95rem; font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      margin-top: 12px; line-height: 1.6;
+    }
+
+    .cta-footer-actions {
+      display: flex; flex-direction: column; gap: 10px;
+      position: relative; z-index: 1;
+    }
+
+    .cta-btn-white {
+      font-family: var(--font-condensed);
+      font-size: 0.88rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--red);
+      background: var(--white);
+      padding: 14px 32px;
+      clip-path: polygon(0 0, 94% 0, 100% 50%, 94% 100%, 0 100%);
+      transition: background 0.2s;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .cta-btn-white:hover { background: var(--paper); }
+
+    .cta-btn-outline {
+      font-family: var(--font-condensed);
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.8);
+      border: 1.5px solid rgba(255,255,255,0.35);
+      padding: 12px 32px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .cta-btn-outline:hover { border-color: white; color: white; }
+
+    /* ========================
+       FOOTER MINI
+    ======================== */
+    .footer-mini {
+      background: var(--ink);
+      padding: 20px 6vw;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-mini span {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: rgba(255,255,255,0.25);
+    }
+
+    .footer-mini a {
+      font-family: var(--font-condensed);
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--red);
+    }
+
+    /* ========================
+       MODAL
+    ======================== */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,10,10,0.85);
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--paper);
+      max-width: 720px; width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-top: 4px solid var(--red);
+      position: relative;
+      transform: translateY(24px);
+      transition: transform 0.3s var(--ease);
+    }
+
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal-header {
+      padding: 32px 36px 24px;
+      border-bottom: 1px solid var(--steel);
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+
+    .modal-header-left {}
+
+    .modal-cat {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--red);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      margin-bottom: 4px;
+    }
+
+    .modal-model {
+      font-family: var(--font-display);
+      font-size: 2.4rem; color: var(--ink);
+      text-transform: uppercase; line-height: 0.95;
+    }
+
+    .modal-close {
+      width: 36px; height: 36px;
+      background: var(--ink);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .modal-close svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2; }
+    .modal-close:hover { background: var(--red); }
+
+    .modal-image {
+      width: 100%; height: 280px;
+      object-fit: cover;
+      filter: brightness(0.8) saturate(0.7);
+    }
+
+    .modal-body {
+      padding: 32px 36px;
+    }
+
+    .modal-desc {
+      font-family: var(--font-body);
+      font-size: 0.92rem; font-weight: 300;
+      line-height: 1.75; color: var(--grey-dark);
+      margin-bottom: 28px;
+    }
+
+    .modal-specs-full {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--steel);
+      border: 1px solid var(--steel);
+      margin-bottom: 28px;
+    }
+
+    .modal-spec {
+      background: var(--paper);
+      padding: 16px 18px;
+    }
+
+    .modal-spec-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: var(--grey);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .modal-spec-val {
+      font-family: var(--font-condensed);
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--ink); text-transform: uppercase;
+    }
+
+    .modal-footer {
+      padding: 24px 36px;
+      border-top: 1px solid var(--steel);
+      display: flex; gap: 10px;
+    }
+
+    .modal-cta-primary {
+      flex: 1;
+      font-family: var(--font-condensed);
+      font-size: 0.88rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: white; background: var(--red);
+      padding: 14px;
+      text-align: center;
+      clip-path: polygon(0 0, 96% 0, 100% 50%, 96% 100%, 0 100%);
+      transition: background 0.2s;
+      border: none; cursor: pointer;
+    }
+
+    .modal-cta-primary:hover { background: var(--red-dark); }
+
+    .modal-cta-wa {
+      font-family: var(--font-condensed);
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #25D366;
+      border: 1.5px solid rgba(37,211,102,0.3);
+      padding: 14px 24px;
+      transition: all 0.2s;
+    }
+
+    .modal-cta-wa:hover { border-color: #25D366; background: rgba(37,211,102,0.05); }
+
+    /* ========================
+       RESPONSIVE
+    ======================== */
+    @media (max-width: 1024px) {
+      .vehicle-featured { grid-template-columns: 1fr; }
+      .vehicle-image-wrap { min-height: 320px; }
+      .vehicle-image-overlay { background: linear-gradient(to bottom, transparent 50%, rgba(242,240,235,0.95)); }
+      .vehicles-secondary { grid-template-columns: 1fr 1fr; }
+      .vehicles-wide { grid-template-columns: 1fr; }
+      .fleet-stats { grid-template-columns: 1fr; gap: 32px; }
+      .fleet-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-stats-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .vehicles-secondary { grid-template-columns: 1fr; }
+      .hero-title { font-size: 4.5rem; }
+      .hero-content { grid-template-columns: 1fr; }
+      .hero-right { text-align: left; max-width: none; }
+      .filter-tabs { overflow-x: auto; }
+      .maintenance-strip { flex-direction: column; align-items: flex-start; }
+      .cta-footer { grid-template-columns: 1fr; }
+      .modal-specs-full { grid-template-columns: 1fr 1fr; }
+      .modal-footer { flex-direction: column; }
+      .nav-center { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 20 20"><path d="M2 10 L10 4 L18 10 L18 16 L13 16 L13 12 L7 12 L7 16 L2 16 Z"/></svg>
+      </div>
+      <div class="nav-logo-text">
+        <span>Abel Costa Transportes</span>
+        <span>ACT · Luanda, Angola</span>
+      </div>
+    </div>
+
+    <div class="nav-center">A Nossa Frota</div>
+
+    <div class="nav-right">
+      <a href="abel-costa-transportes.html" class="nav-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+      </a>
+      <a href="abel-costa-transportes.html#orcamento" class="nav-cta">Pedir Orçamento</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="hero-bg-lines"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-text">Frota Certificada · Luanda, Angola</span>
+        </div>
+        <h1 class="hero-title">A Nossa<br><span class="hero-title-accent">Frota</span></h1>
+      </div>
+      <div class="hero-right">
+        <p>Viaturas modernas, bem conservadas e com manutenção rigorosa. Cada veículo é rastreado em tempo real e inspeccionado antes de cada operação.</p>
+      </div>
+    </div>
+    <div class="hero-stats-bar">
+      <div class="hero-stat">
+        <div class="hero-stat-val">12<em>+</em></div>
+        <div class="hero-stat-label">Viaturas activas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">30<em>T</em></div>
+        <div class="hero-stat-label">Capacidade máx.</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">100<em>%</em></div>
+        <div class="hero-stat-label">Rastreamento GPS</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">24<em>h</em></div>
+        <div class="hero-stat-label">Monitorização</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterVehicles('todos', this)">
+        Todos <span class="filter-count">(12)</span>
+      </button>
+      <button class="filter-tab" onclick="filterVehicles('pesado', this)">
+        Pesados <span class="filter-count">(5)</span>
+      </button>
+      <button class="filter-tab" onclick="filterVehicles('medio', this)">
+        Médios <span class="filter-count">(4)</span>
+      </button>
+      <button class="filter-tab" onclick="filterVehicles('ligeiro', this)">
+        Ligeiros <span class="filter-count">(3)</span>
+      </button>
+      <button class="filter-tab" onclick="filterVehicles('disponivel', this)">
+        Disponíveis
+      </button>
+    </div>
+    <div class="filter-right">ACTUALIZADO: MAI 2024 · 12 VIATURAS</div>
+  </div>
+
+  <!-- FLEET -->
+  <div class="fleet-wrapper">
+
+    <!-- FEATURED -->
+    <div class="vehicle-featured" data-cat="pesado" data-status="disponivel">
+      <div class="vehicle-image-wrap">
+        <img class="vehicle-image"
+          src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1200&q=80"
+          alt="Scania R450 — Camião pesado Abel Costa Transportes" />
+        <div class="vehicle-image-overlay"></div>
+        <div class="vehicle-badge">Frota Principal</div>
+        <div class="vehicle-id">01</div>
+      </div>
+      <div class="vehicle-spec-panel">
+        <div class="spec-header">
+          <div class="spec-category">Transporte Pesado · ACT-001</div>
+          <div class="spec-model">Scania<br>R450</div>
+          <div class="spec-subtitle">Highline · 6×4 · Euro 6</div>
+          <p class="spec-desc">A espinha dorsal da nossa frota. O Scania R450 é a nossa viatura de referência para rotas longas e cargas pesadas em Angola. Cabine de descanso, caixa automática e sistema de rastreamento integrado.</p>
+        </div>
+
+        <div>
+          <div class="spec-grid">
+            <div class="spec-item">
+              <div class="spec-item-label">Carga Máx.</div>
+              <div class="spec-item-val">28 Ton</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-item-label">Volume</div>
+              <div class="spec-item-val">90 m³</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-item-label">Potência</div>
+              <div class="spec-item-val">450 CV</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-item-label">Combustível</div>
+              <div class="spec-item-val">Diesel</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-item-label">Ano</div>
+              <div class="spec-item-val">2021</div>
+            </div>
+            <div class="spec-item">
+              <div class="spec-item-label">GPS</div>
+              <div class="spec-item-val">Activo</div>
+            </div>
+          </div>
+
+          <div class="spec-status">
+            <div class="status-dot"></div>
+            <span class="status-text">DISPONÍVEL PARA OPERAÇÃO</span>
+          </div>
+
+          <button class="spec-cta" onclick="openModal('scania-r450')">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Ver Ficha Técnica Completa
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECONDARY 3-COL GRID -->
+    <div class="vehicles-secondary">
+
+      <!-- Card 2 -->
+      <div class="vehicle-card" data-cat="pesado" data-status="disponivel" onclick="openModal('volvo-fh')">
+        <div class="card-image-wrap">
+          <img class="card-image"
+            src="https://images.unsplash.com/photo-1519003300449-424ad0405076?w=800&q=80"
+            alt="Volvo FH 500" />
+          <div class="card-badge">Pesado</div>
+          <div class="card-id-bg">02</div>
+          <div class="card-blueprint">
+            <div class="blueprint-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="blueprint-text">Ver Ficha Técnica</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">ACT-002 · Transporte Pesado</div>
+          <div class="card-model">Volvo FH</div>
+          <div class="card-subtitle">500 · Globetrotter · 4×2</div>
+          <div class="card-specs-row">
+            <div class="card-spec">
+              <div class="card-spec-label">Carga</div>
+              <div class="card-spec-val">25T</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Volume</div>
+              <div class="card-spec-val">82m³</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Ano</div>
+              <div class="card-spec-val">2020</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-status"><div class="card-status-dot"></div>Disponível</div>
+            <div class="card-link">Ver Ficha <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="vehicle-card" data-cat="medio" data-status="disponivel" onclick="openModal('mercedes-actros')">
+        <div class="card-image-wrap">
+          <img class="card-image"
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80"
+            alt="Mercedes-Benz Actros" />
+          <div class="card-badge">Médio</div>
+          <div class="card-id-bg">03</div>
+          <div class="card-blueprint">
+            <div class="blueprint-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="blueprint-text">Ver Ficha Técnica</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">ACT-003 · Transporte Médio</div>
+          <div class="card-model">Mercedes Actros</div>
+          <div class="card-subtitle">1845 · StreamSpace · 4×2</div>
+          <div class="card-specs-row">
+            <div class="card-spec">
+              <div class="card-spec-label">Carga</div>
+              <div class="card-spec-val">18T</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Volume</div>
+              <div class="card-spec-val">60m³</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Ano</div>
+              <div class="card-spec-val">2022</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-status"><div class="card-status-dot"></div>Disponível</div>
+            <div class="card-link">Ver Ficha <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="vehicle-card" data-cat="medio" data-status="manutencao" onclick="openModal('man-tgx')">
+        <div class="card-image-wrap">
+          <img class="card-image"
+            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+            alt="MAN TGX 18.440" />
+          <div class="card-badge">Médio</div>
+          <div class="card-id-bg">04</div>
+          <div class="card-blueprint">
+            <div class="blueprint-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="blueprint-text">Ver Ficha Técnica</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">ACT-004 · Transporte Médio</div>
+          <div class="card-model">MAN TGX</div>
+          <div class="card-subtitle">18.440 · XLX · 4×2</div>
+          <div class="card-specs-row">
+            <div class="card-spec">
+              <div class="card-spec-label">Carga</div>
+              <div class="card-spec-val">16T</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Volume</div>
+              <div class="card-spec-val">55m³</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Ano</div>
+              <div class="card-spec-val">2019</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-status"><div class="card-status-dot manutencao"></div>Manutenção</div>
+            <div class="card-link">Ver Ficha <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /secondary -->
+
+    <!-- WIDE GRID -->
+    <div class="vehicles-wide">
+
+      <div class="vehicle-wide" data-cat="ligeiro" data-status="disponivel" onclick="openModal('iveco-daily')">
+        <div class="card-image-wrap">
+          <img class="card-image"
+            src="https://images.unsplash.com/photo-1570125744133-06bef51a2b8f?w=800&q=80"
+            alt="Iveco Daily 70C" />
+          <div class="card-badge">Ligeiro</div>
+          <div class="card-id-bg">05</div>
+          <div class="card-blueprint">
+            <div class="blueprint-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="blueprint-text">Ver Ficha Técnica</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">ACT-005 · Transporte Ligeiro</div>
+          <div class="card-model">Iveco Daily</div>
+          <div class="card-subtitle">70C17 · Caixa Fechada · 4×2</div>
+          <div class="card-specs-row">
+            <div class="card-spec">
+              <div class="card-spec-label">Carga</div>
+              <div class="card-spec-val">3.5T</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Volume</div>
+              <div class="card-spec-val">18m³</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Ano</div>
+              <div class="card-spec-val">2023</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-status"><div class="card-status-dot"></div>Disponível</div>
+            <div class="card-link">Ver Ficha <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vehicle-wide" data-cat="pesado" data-status="disponivel" onclick="openModal('scania-r500')">
+        <div class="card-image-wrap">
+          <img class="card-image"
+            src="https://images.unsplash.com/photo-1611288875785-bef3be049c39?w=800&q=80"
+            alt="Scania R500 — Frigorífico" />
+          <div class="card-badge">Pesado · Frigorífico</div>
+          <div class="card-id-bg">06</div>
+          <div class="card-blueprint">
+            <div class="blueprint-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <div class="blueprint-text">Ver Ficha Técnica</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">ACT-006 · Carga Refrigerada</div>
+          <div class="card-model">Scania R500</div>
+          <div class="card-subtitle">Highline · Frigorífico · 6×4</div>
+          <div class="card-specs-row">
+            <div class="card-spec">
+              <div class="card-spec-label">Carga</div>
+              <div class="card-spec-val">26T</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Temp.</div>
+              <div class="card-spec-val">-25°C</div>
+            </div>
+            <div class="card-spec">
+              <div class="card-spec-label">Ano</div>
+              <div class="card-spec-val">2022</div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-status"><div class="card-status-dot"></div>Disponível</div>
+            <div class="card-link">Ver Ficha <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /wide -->
+
+    <!-- FLEET STATS -->
+    <div class="fleet-stats">
+      <div class="fleet-stats-title">Porquê a<br>Nossa <em>Frota</em></div>
+      <div class="fleet-stats-grid">
+        <div class="fleet-stat-item">
+          <div class="fstat-val">100<span>%</span></div>
+          <div class="fstat-label">GPS em tempo real</div>
+        </div>
+        <div class="fleet-stat-item">
+          <div class="fstat-val">6<span>×</span></div>
+          <div class="fstat-label">Inspecções anuais</div>
+        </div>
+        <div class="fleet-stat-item">
+          <div class="fstat-val">30<span>T</span></div>
+          <div class="fstat-label">Capacidade máxima</div>
+        </div>
+        <div class="fleet-stat-item">
+          <div class="fstat-val">15<span>+</span></div>
+          <div class="fstat-label">Anos de experiência</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /fleet-wrapper -->
+
+  <!-- MAINTENANCE STRIP -->
+  <div class="maintenance-strip">
+    <div class="maint-left">
+      <div class="maint-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+      <div>
+        <div class="maint-title">Manutenção Rigorosa</div>
+        <p class="maint-text">Todas as viaturas passam por inspecção técnica bimestral, com substituição preventiva de componentes críticos. A nossa taxa de avaria em rota é inferior a 0,5%.</p>
+      </div>
+    </div>
+    <a href="abel-costa-transportes.html#orcamento" class="maint-cta">Reservar Viatura</a>
+  </div>
+
+  <!-- CTA FOOTER -->
+  <div class="cta-footer">
+    <div>
+      <div class="cta-footer-title">Precisa de uma<br>Viatura para a Sua Carga?</div>
+      <p class="cta-footer-sub">A nossa equipa ajuda-o a escolher a viatura certa para o volume, peso e rota da sua operação.</p>
+    </div>
+    <div class="cta-footer-actions">
+      <a href="abel-costa-transportes.html#orcamento" class="cta-btn-white">Solicitar Orçamento</a>
+      <a href="https://wa.me/244923799799?text=Olá%2C%20vi%20a%20vossa%20frota%20e%20gostaria%20de%20saber%20mais%20sobre%20disponibilidade%20de%20viaturas." target="_blank" class="cta-btn-outline">Falar no WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- FOOTER MINI -->
+  <div class="footer-mini">
+    <span>&copy; 2024 Abel Costa Transportes · +244 923 799 799 · abc.transportes2007@hotmail.com</span>
+    <a href="abel-costa-transportes.html">← Voltar ao Site Principal</a>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-cat" id="modalCat">—</div>
+          <div class="modal-model" id="modalModel">—</div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <img class="modal-image" id="modalImage" src="" alt="" />
+      <div class="modal-body">
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-specs-full" id="modalSpecs"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-cta-primary" onclick="requestVehicle()">Solicitar Esta Viatura</button>
+        <a id="modalWa" href="#" target="_blank" class="modal-cta-wa">Confirmar via WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ========================
+    // VEHICLE DATA
+    // ========================
+    const vehicles = {
+      'scania-r450': {
+        cat: 'ACT-001 · Transporte Pesado',
+        model: 'Scania R450',
+        image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=80',
+        desc: 'O Scania R450 é a nossa viatura de referência para rotas longas e cargas de grande dimensão. Com cabine de descanso Highline, transmissão automática Opticruise e sistema de telemetria integrado, esta viatura garante conforto ao motorista e máxima fiabilidade na entrega. Ideal para rotas entre Luanda e as províncias mais distantes como Huambo, Lubango e Moxico.',
+        specs: [
+          { label: 'Matrícula', val: 'LD-XX-001' },
+          { label: 'Ano', val: '2021' },
+          { label: 'Carga Máx.', val: '28 Ton' },
+          { label: 'Volume', val: '90 m³' },
+          { label: 'Potência', val: '450 CV' },
+          { label: 'Transmissão', val: 'Automática' },
+          { label: 'Combustível', val: 'Diesel' },
+          { label: 'Rastreamento', val: 'GPS Activo' },
+          { label: 'Estado', val: 'Disponível' },
+          { label: 'Última Inspecção', val: 'Abr 2024' },
+          { label: 'Km Totais', val: '148.000 km' },
+          { label: 'Seguro', val: 'Válido 2024' }
+        ]
+      },
+      'volvo-fh': {
+        cat: 'ACT-002 · Transporte Pesado',
+        model: 'Volvo FH 500',
+        image: 'https://images.unsplash.com/photo-1519003300449-424ad0405076?w=900&q=80',
+        desc: 'O Volvo FH 500 Globetrotter é uma das viaturas mais confiáveis da nossa frota para longas distâncias. Equipado com sistema I-Save de eficiência energética e cabine de descanso de grandes dimensões, assegura operações contínuas com maior segurança para o motorista e a carga.',
+        specs: [
+          { label: 'Matrícula', val: 'LD-XX-002' },
+          { label: 'Ano', val: '2020' },
+          { label: 'Carga Máx.', val: '25 Ton' },
+          { label: 'Volume', val: '82 m³' },
+          { label: 'Potência', val: '500 CV' },
+          { label: 'Transmissão', val: 'Automática' },
+          { label: 'Combustível', val: 'Diesel' },
+          { label: 'Rastreamento', val: 'GPS Activo' },
+          { label: 'Estado', val: 'Disponível' },
+          { label: 'Última Inspecção', val: 'Mar 2024' },
+          { label: 'Km Totais', val: '212.000 km' },
+          { label: 'Seguro', val: 'Válido 2024' }
+        ]
+      },
+      'mercedes-actros': {
+        cat: 'ACT-003 · Transporte Médio',
+        model: 'Mercedes-Benz Actros 1845',
+        image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&q=80',
+        desc: 'O Mercedes-Benz Actros 1845 é a nossa escolha para operações de médio porte que exigem versatilidade e economia. Com sistema MirrorCam em substituição dos espelhos tradicionais e câmbio automático PowerShift, é uma viatura moderna e eficiente para distribuição regional.',
+        specs: [
+          { label: 'Matrícula', val: 'LD-XX-003' },
+          { label: 'Ano', val: '2022' },
+          { label: 'Carga Máx.', val: '18 Ton' },
+          { label: 'Volume', val: '60 m³' },
+          { label: 'Potência', val: '449 CV' },
+          { label: 'Transmissão', val: 'PowerShift Auto' },
+          { label: 'Combustível', val: 'Diesel' },
+          { label: 'Rastreamento', val: 'GPS Activo' },
+          { label: 'Estado', val: 'Disponível' },
+          { label: 'Última Inspecção', val: 'Abr 2024' },
+          { label: 'Km Totais', val: '89.000 km' },
+          { label: 'Seguro', val: 'Válido 2024' }
+        ]
+      },
+      'man-tgx': {
+        cat: 'ACT-004 · Transporte Médio',
+        model: 'MAN TGX 18.440',
+        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80',
+        desc: 'O MAN TGX 18.440 encontra-se actualmente em manutenção programada para substituição preventiva de travões e revisão geral de motor. Retorna às operações em Junho de 2024. Uma das viaturas mais robustas da nossa frota para terrenos exigentes.',
+        specs: [
+          { label: 'Matrícula', val: 'LD-XX-004' },
+          { label: 'Ano', val: '2019' },
+          { label: 'Carga Máx.', val: '16 Ton' },
+          { label: 'Volume', val: '55 m³' },
+          { label: 'Potência', val: '440 CV' },
+          { label: 'Transmissão', val: 'Manual 12v' },
+          { label: 'Combustível', val: 'Diesel' },
+          { label: 'Rastreamento', val: 'GPS Activo' },
+          { label: 'Estado', val: 'Em Manutenção' },
+          { label: 'Previsão Retorno', val: 'Jun 2024' },
+          { label: 'Km Totais', val: '340.000 km' },
+          { label: 'Seguro', val: 'Válido 2024' }
+        ]
+      },
+      'iveco-daily': {
+        cat: 'ACT-005 · Transporte Ligeiro',
+        model: 'Iveco Daily 70C17',
+        image: 'https://images.unsplash.com/photo-1570125744133-06bef51a2b8f?w=900&q=80',
+        desc: 'O Iveco Daily 70C17 é a nossa viatura de eleição para distribuição urbana e entregas em Luanda e arredores. Caixa fechada, ideal para mercadorias que exigem protecção das intempéries. Excelente manobrabilidade em ambiente urbano e acesso a bairros com ruas estreitas.',
+        specs: [
+          { label: 'Matrícula', val: 'LD-XX-005' },
+          { label: 'Ano', val: '2023' },
+          { label: 'Carga Máx.', val: '3.5 Ton' },
+          { label: 'Volume', val: '18 m³' },
+          { label: 'Potência', val: '170 CV' },
+          { label: 'Transmissão', val: 'Manual 6v' },
+          { label: 'Combustível', val: 'Diesel' },
+          { label: 'Rastreamento', val: 'GPS Activo' },
+          { label: 'Estado', val: 'Disponível' },
+          { label: 'Última Inspecção', val: 'Mai 2024' },
+          { label: 'Km Totais', val: '22.000 km' },
+          { label: 'Seguro', val: 'Válido 2024' }
+        ]
+      },
+      'scania-r500': {
+        cat: 'ACT-006 · Carga Refrigerada',
+        model: 'Scania R500 Frigorífico',
+        image: 'https://images.unsplash.com/photo-1611288875785-bef3be049c39?w=900&q=80',
+        desc: 'A nossa única viatura frigorífica, equipada com unidade de refrigeração Carrier Transicold capaz de manter temperaturas entre -25°C e +25°C. Indicada para transporte de alimentos, medicamentos e produtos sensíveis à temperatura entre Luanda e qualquer ponto do país.',
+        specs: [
+          { label: 'Matrícula', val: 'LD-XX-006' },
+          { label: 'Ano', val: '2022' },
+          { label: 'Carga Máx.', val: '26 Ton' },
+          { label: 'Volume', val: '82 m³' },
+          { label: 'Temp. Mín.', val: '-25°C' },
+          { label: 'Temp. Máx.', val: '+25°C' },
+          { label: 'Refrigeração', val: 'Carrier Transicold' },
+          { label: 'Rastreamento', val: 'GPS Activo' },
+          { label: 'Estado', val: 'Disponível' },
+          { label: 'Última Inspecção', val: 'Abr 2024' },
+          { label: 'Km Totais', val: '67.000 km' },
+          { label: 'Seguro', val: 'Válido 2024' }
+        ]
+      }
+    };
+
+    // ========================
+    // MODAL
+    // ========================
+    let currentVehicle = null;
+
+    function openModal(id) {
+      const v = vehicles[id];
+      if (!v) return;
+      currentVehicle = id;
+
+      document.getElementById('modalCat').textContent = v.cat;
+      document.getElementById('modalModel').textContent = v.model;
+      document.getElementById('modalImage').src = v.image;
+      document.getElementById('modalImage').alt = v.model;
+      document.getElementById('modalDesc').textContent = v.desc;
+
+      const specsHtml = v.specs.map(s => `
+        <div class="modal-spec">
+          <div class="modal-spec-label">${s.label}</div>
+          <div class="modal-spec-val">${s.val}</div>
+        </div>
+      `).join('');
+      document.getElementById('modalSpecs').innerHTML = specsHtml;
+
+      const msg = encodeURIComponent(`Olá, vi a vossa frota e gostaria de saber a disponibilidade da viatura ${v.model} (${v.cat}) para transporte de carga.`);
+      document.getElementById('modalWa').href = `https://wa.me/244923799799?text=${msg}`;
+
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+      currentVehicle = null;
+    }
+
+    function closeModalOnBg(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+
+    function requestVehicle() {
+      if (!currentVehicle) return;
+      const v = vehicles[currentVehicle];
+      const msg = encodeURIComponent(`Olá, gostaria de solicitar um orçamento utilizando a viatura ${v.model}. Podem contactar-me?`);
+      window.open(`https://wa.me/244923799799?text=${msg}`, '_blank');
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ========================
+    // FILTER
+    // ========================
+    function filterVehicles(cat, btn) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.vehicle-card, .vehicle-featured, .vehicle-wide');
+      cards.forEach(card => {
+        const cardCat = card.dataset.cat;
+        const cardStatus = card.dataset.status;
+        let show = false;
+        if (cat === 'todos') show = true;
+        else if (cat === 'disponivel') show = cardStatus === 'disponivel';
+        else show = cardCat === cat;
+        card.style.opacity = show ? '1' : '0.2';
+        card.style.pointerEvents = show ? 'all' : 'none';
+        card.style.transition = 'opacity 0.3s';
+      });
+    }
+  </script>
+
+</body>
+</html>
