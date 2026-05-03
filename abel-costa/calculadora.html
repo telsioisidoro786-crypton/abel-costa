@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Transporte | Abel Costa Transportes</title>
+  <meta name="description" content="Calcule o custo estimado do seu transporte de carga em Angola. Ferramenta gratuita da Abel Costa Transportes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red: #D0021B;
+      --red-dark: #A00015;
+      --red-glow: rgba(208, 2, 27, 0.18);
+      --black: #080808;
+      --panel: #0F0F0F;
+      --panel-2: #161616;
+      --border: rgba(255,255,255,0.07);
+      --border-active: rgba(208,2,27,0.5);
+      --white: #FFFFFF;
+      --off-white: #F0EEE8;
+      --grey: #6A6A6A;
+      --grey-light: #9A9A9A;
+      --green: #00E676;
+      --font-display: 'Oswald', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-condensed: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ========================
+       GRID BACKGROUND
+    ======================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ========================
+       NAV
+    ======================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4vw;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-mark {
+      width: 34px; height: 34px;
+      background: var(--red);
+      display: flex; align-items: center; justify-content: center;
+      clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+    }
+
+    .nav-logo-mark svg { width: 18px; height: 18px; fill: white; }
+
+    .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-text span:first-child {
+      font-family: var(--font-display);
+      font-size: 0.9rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em; color: var(--white);
+    }
+    .nav-logo-text span:last-child {
+      font-family: var(--font-body);
+      font-size: 0.6rem; font-weight: 300;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey);
+    }
+
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--grey-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--white); }
+    .nav-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .nav-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--green);
+      border: 1px solid rgba(0,230,118,0.3);
+      padding: 4px 10px;
+      letter-spacing: 0.05em;
+      animation: blink-border 2s ease-in-out infinite;
+    }
+
+    @keyframes blink-border {
+      0%, 100% { border-color: rgba(0,230,118,0.3); }
+      50% { border-color: rgba(0,230,118,0.8); }
+    }
+
+    /* ========================
+       HERO HEADER
+    ======================== */
+    .page-header {
+      position: relative;
+      z-index: 1;
+      padding: 120px 8vw 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .header-left {}
+
+    .header-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .header-tag-line { width: 24px; height: 2px; background: var(--red); }
+
+    .header-tag span {
+      font-family: var(--font-condensed);
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em; color: var(--red);
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--white);
+    }
+
+    .page-title em { font-style: normal; color: var(--red); }
+
+    .header-right {
+      max-width: 340px;
+      text-align: right;
+    }
+
+    .header-right p {
+      font-family: var(--font-body);
+      font-size: 0.9rem; font-weight: 300;
+      line-height: 1.7; color: var(--grey-light);
+    }
+
+    .header-disclaimer {
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem; color: var(--grey);
+      letter-spacing: 0.03em;
+    }
+
+    /* ========================
+       MAIN CALCULATOR LAYOUT
+    ======================== */
+    .calc-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 0 8vw 80px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 2px;
+      align-items: start;
+    }
+
+    /* ========================
+       LEFT PANEL — INPUTS
+    ======================== */
+    .calc-inputs {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-right: none;
+    }
+
+    .panel-section {
+      padding: 36px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-section:last-child { border-bottom: none; }
+
+    .panel-section-title {
+      font-family: var(--font-condensed);
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--red);
+      margin-bottom: 28px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .panel-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Service selector */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .service-btn {
+      position: relative;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+      text-align: left;
+      overflow: hidden;
+    }
+
+    .service-btn::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--red);
+      transform: scaleY(0);
+      transition: transform 0.25s var(--ease);
+    }
+
+    .service-btn.active {
+      border-color: var(--border-active);
+      background: rgba(208,2,27,0.06);
+    }
+
+    .service-btn.active::before { transform: scaleY(1); }
+
+    .service-btn-icon {
+      width: 32px; height: 32px;
+      margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .service-btn-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--grey);
+      fill: none; stroke-width: 1.5;
+      transition: stroke 0.2s;
+    }
+
+    .service-btn.active .service-btn-icon svg { stroke: var(--red); }
+
+    .service-btn-name {
+      font-family: var(--font-condensed);
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--grey-light);
+      transition: color 0.2s;
+      display: block;
+    }
+
+    .service-btn.active .service-btn-name { color: var(--white); }
+
+    .service-btn-rate {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--grey);
+      margin-top: 4px;
+      transition: color 0.2s;
+    }
+
+    .service-btn.active .service-btn-rate { color: var(--red); }
+
+    /* Sliders */
+    .field-group { margin-bottom: 28px; }
+    .field-group:last-child { margin-bottom: 0; }
+
+    .field-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      font-family: var(--font-condensed);
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey-light);
+    }
+
+    .field-value {
+      font-family: var(--font-mono);
+      font-size: 1rem; color: var(--white);
+      font-weight: 400;
+    }
+
+    .field-value span { color: var(--red); font-size: 0.75rem; margin-left: 3px; }
+
+    /* Custom slider */
+    .slider-wrap { position: relative; }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%; height: 4px;
+      background: transparent;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .slider-track {
+      position: relative;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 0;
+    }
+
+    .slider-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      background: var(--red);
+      pointer-events: none;
+      transition: width 0.1s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      background: var(--white);
+      border-radius: 0;
+      cursor: pointer;
+      border: 3px solid var(--red);
+      position: relative; z-index: 2;
+      transition: transform 0.15s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px; height: 18px;
+      background: var(--white);
+      border-radius: 0;
+      cursor: pointer;
+      border: 3px solid var(--red);
+    }
+
+    .slider-labels {
+      display: flex; justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    .slider-labels span {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; color: var(--grey);
+    }
+
+    /* Province select */
+    .province-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .province-select-wrap {
+      position: relative;
+    }
+
+    .province-select-label {
+      font-family: var(--font-condensed);
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--grey);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .province-select {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 0.88rem; font-weight: 400;
+      color: var(--white);
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 12px 36px 12px 14px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      border-radius: 0;
+    }
+
+    .province-select:focus { border-color: var(--border-active); }
+
+    .province-select option { background: #1a1a1a; }
+
+    .province-select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 12px; bottom: 14px;
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--grey);
+      pointer-events: none;
+    }
+
+    /* Extras */
+    .extras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .extra-toggle {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .extra-toggle.active {
+      border-color: var(--border-active);
+      background: rgba(208,2,27,0.05);
+    }
+
+    .toggle-check {
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--grey);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .extra-toggle.active .toggle-check {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .toggle-check svg {
+      width: 10px; height: 10px;
+      fill: none; stroke: white; stroke-width: 2.5;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .extra-toggle.active .toggle-check svg { opacity: 1; }
+
+    .toggle-info {}
+
+    .toggle-name {
+      font-family: var(--font-condensed);
+      font-size: 0.8rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--grey-light);
+      transition: color 0.2s;
+    }
+
+    .extra-toggle.active .toggle-name { color: var(--white); }
+
+    .toggle-cost {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--grey);
+      margin-top: 2px;
+    }
+
+    /* ========================
+       RIGHT PANEL — RESULT
+    ======================== */
+    .calc-result {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      position: sticky;
+      top: 80px;
+    }
+
+    .result-header {
+      background: var(--red);
+      padding: 28px 32px;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
+    }
+
+    .result-header-label {
+      font-family: var(--font-condensed);
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 6px;
+    }
+
+    .result-header-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem; font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    /* Live price display */
+    .result-price-block {
+      padding: 36px 32px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-price-block::before {
+      content: 'KZ';
+      position: absolute;
+      right: -10px; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-size: 8rem; font-weight: 700;
+      color: rgba(255,255,255,0.02);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .result-price-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--grey);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .result-price {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .result-price.updated { color: var(--green); }
+
+    .result-price-currency {
+      font-family: var(--font-condensed);
+      font-size: 1rem; font-weight: 600;
+      color: var(--grey); margin-right: 6px;
+    }
+
+    .result-price-range {
+      font-family: var(--font-body);
+      font-size: 0.8rem; font-weight: 300;
+      color: var(--grey);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .result-price-range strong { color: var(--grey-light); font-weight: 500; }
+
+    /* Breakdown */
+    .result-breakdown {
+      padding: 28px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breakdown-title {
+      font-family: var(--font-condensed);
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em; color: var(--grey);
+      margin-bottom: 20px;
+    }
+
+    .breakdown-line {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .breakdown-line:last-child { border-bottom: none; }
+
+    .breakdown-line-name {
+      font-family: var(--font-body);
+      font-size: 0.85rem; font-weight: 300; color: var(--grey-light);
+    }
+
+    .breakdown-line-val {
+      font-family: var(--font-mono);
+      font-size: 0.82rem; color: var(--white);
+    }
+
+    .breakdown-line.total {
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      border-bottom: none;
+    }
+
+    .breakdown-line.total .breakdown-line-name {
+      font-family: var(--font-condensed);
+      font-size: 0.9rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--white);
+    }
+
+    .breakdown-line.total .breakdown-line-val {
+      font-size: 1rem; color: var(--red);
+    }
+
+    /* Route info */
+    .result-route {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .route-display {
+      display: flex; align-items: center; gap: 12px;
+    }
+
+    .route-point {
+      font-family: var(--font-condensed);
+      font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--white);
+    }
+
+    .route-line {
+      flex: 1;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .route-line-inner {
+      flex: 1; height: 1px;
+      background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 6px, transparent 6px, transparent 12px);
+    }
+
+    .route-truck {
+      width: 20px; height: 20px;
+      fill: var(--red);
+      animation: drive 3s linear infinite;
+    }
+
+    @keyframes drive {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
+    }
+
+    .route-duration {
+      font-family: var(--font-mono);
+      font-size: 0.68rem; color: var(--grey);
+      margin-top: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .route-duration::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* CTA */
+    .result-cta {
+      padding: 28px 32px;
+    }
+
+    .cta-main {
+      display: block; width: 100%;
+      font-family: var(--font-condensed);
+      font-size: 0.9rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--white);
+      background: var(--red);
+      padding: 16px;
+      text-align: center;
+      clip-path: polygon(0 0, 97% 0, 100% 50%, 97% 100%, 0 100%);
+      transition: background 0.2s;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .cta-main:hover { background: var(--red-dark); }
+    .cta-main svg { width: 16px; height: 16px; fill: white; }
+
+    .cta-whatsapp {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      font-family: var(--font-condensed);
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: #25D366;
+      border: 1px solid rgba(37,211,102,0.25);
+      padding: 13px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .cta-whatsapp:hover { border-color: #25D366; background: rgba(37,211,102,0.05); }
+    .cta-whatsapp svg { width: 16px; height: 16px; fill: #25D366; }
+
+    .result-note {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.63rem; color: var(--grey);
+      line-height: 1.6; letter-spacing: 0.02em;
+    }
+
+    /* ========================
+       BOTTOM INFO STRIP
+    ======================== */
+    .info-strip {
+      position: relative; z-index: 1;
+      padding: 0 8vw 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 2px;
+    }
+
+    .info-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+
+    .info-card-icon {
+      width: 40px; height: 40px;
+      background: var(--red-glow);
+      border: 1px solid rgba(208,2,27,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .info-card-icon svg { width: 18px; height: 18px; stroke: var(--red); fill: none; stroke-width: 1.5; }
+
+    .info-card-title {
+      font-family: var(--font-condensed);
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--white); margin-bottom: 6px;
+    }
+
+    .info-card-text {
+      font-family: var(--font-body);
+      font-size: 0.82rem; font-weight: 300;
+      line-height: 1.6; color: var(--grey-light);
+    }
+
+    /* ========================
+       FOOTER MINI
+    ======================== */
+    .footer-mini {
+      position: relative; z-index: 1;
+      padding: 20px 8vw;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-mini span {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--grey);
+    }
+
+    .footer-mini a {
+      font-family: var(--font-condensed);
+      font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--red); text-decoration: none;
+    }
+
+    /* ========================
+       RESPONSIVE
+    ======================== */
+    @media (max-width: 1024px) {
+      .calc-wrapper { grid-template-columns: 1fr; }
+      .calc-inputs { border-right: 1px solid var(--border); }
+      .calc-result { position: static; }
+      .info-strip { grid-template-columns: 1fr; }
+      .page-header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; }
+    }
+
+    @media (max-width: 640px) {
+      .service-grid { grid-template-columns: 1fr 1fr; }
+      .extras-grid { grid-template-columns: 1fr; }
+      .province-grid { grid-template-columns: 1fr; }
+      .panel-section { padding: 28px 24px; }
+      .result-header, .result-price-block, .result-breakdown,
+      .result-route, .result-cta { padding-left: 24px; padding-right: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="abel-costa-transportes.html" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg viewBox="0 0 20 20"><path d="M2 10 L10 4 L18 10 L18 16 L13 16 L13 12 L7 12 L7 16 L2 16 Z"/></svg>
+      </div>
+      <div class="nav-logo-text">
+        <span>Abel Costa Transportes</span>
+        <span>Calculadora de Preços</span>
+      </div>
+    </a>
+
+    <div class="nav-badge">ESTIMATIVA EM TEMPO REAL</div>
+
+    <a href="abel-costa-transportes.html" class="nav-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Voltar ao Site
+    </a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-tag">
+        <div class="header-tag-line"></div>
+        <span>Ferramenta Gratuita</span>
+      </div>
+      <h1 class="page-title">Calcule o<br>Seu <em>Transporte</em></h1>
+    </div>
+    <div class="header-right">
+      <p>Obtenha uma estimativa de preço para o seu transporte de carga em Angola. Ajuste os parâmetros e veja o resultado actualizado em tempo real.</p>
+      <div class="header-disclaimer">* Valores estimados. Orçamento final confirmado pela nossa equipa.</div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="calc-wrapper">
+
+    <!-- LEFT: INPUTS -->
+    <div class="calc-inputs">
+
+      <!-- 01: Tipo de Serviço -->
+      <div class="panel-section">
+        <div class="panel-section-title">01 — Tipo de Serviço</div>
+        <div class="service-grid">
+          <button class="service-btn active" data-service="carga" onclick="setService(this)">
+            <div class="service-btn-icon">
+              <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <span class="service-btn-name">Carga Geral</span>
+            <div class="service-btn-rate">Base: 150 Kz/km</div>
+          </button>
+
+          <button class="service-btn" data-service="logistica" onclick="setService(this)">
+            <div class="service-btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <span class="service-btn-name">Logística</span>
+            <div class="service-btn-rate">Base: 220 Kz/km</div>
+          </button>
+
+          <button class="service-btn" data-service="distribuicao" onclick="setService(this)">
+            <div class="service-btn-icon">
+              <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </div>
+            <span class="service-btn-name">Distribuição</span>
+            <div class="service-btn-rate">Base: 180 Kz/km</div>
+          </button>
+
+          <button class="service-btn" data-service="especial" onclick="setService(this)">
+            <div class="service-btn-icon">
+              <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <span class="service-btn-name">Serviço Especial</span>
+            <div class="service-btn-rate">Base: 300 Kz/km</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 02: Peso da Carga -->
+      <div class="panel-section">
+        <div class="panel-section-title">02 — Peso da Carga</div>
+        <div class="field-group">
+          <div class="field-header">
+            <span class="field-label">Peso Total</span>
+            <div class="field-value" id="weightDisplay">500 <span>kg</span></div>
+          </div>
+          <div class="slider-wrap">
+            <div class="slider-track">
+              <div class="slider-fill" id="weightFill" style="width:16.6%"></div>
+              <input type="range" id="weightSlider" min="100" max="3000" value="500" step="50" oninput="updateWeight(this)" />
+            </div>
+            <div class="slider-labels">
+              <span>100 kg</span>
+              <span>1.500 kg</span>
+              <span>3.000 kg</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-header">
+            <span class="field-label">Volume Estimado</span>
+            <div class="field-value" id="volumeDisplay">2 <span>m³</span></div>
+          </div>
+          <div class="slider-wrap">
+            <div class="slider-track">
+              <div class="slider-fill" id="volumeFill" style="width:10%"></div>
+              <input type="range" id="volumeSlider" min="1" max="20" value="2" step="1" oninput="updateVolume(this)" />
+            </div>
+            <div class="slider-labels">
+              <span>1 m³</span>
+              <span>10 m³</span>
+              <span>20 m³</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03: Rota -->
+      <div class="panel-section">
+        <div class="panel-section-title">03 — Rota de Transporte</div>
+        <div class="province-grid">
+          <div class="province-select-wrap">
+            <label class="province-select-label">Origem</label>
+            <select class="province-select" id="originSelect" onchange="updateRoute()">
+              <option value="luanda">Luanda</option>
+              <option value="benguela">Benguela</option>
+              <option value="huambo">Huambo</option>
+              <option value="lubango">Lubango</option>
+              <option value="malanje">Malanje</option>
+              <option value="uige">Uíge</option>
+              <option value="soyo">Soyo</option>
+              <option value="cabinda">Cabinda</option>
+            </select>
+          </div>
+          <div class="province-select-wrap">
+            <label class="province-select-label">Destino</label>
+            <select class="province-select" id="destSelect" onchange="updateRoute()">
+              <option value="benguela">Benguela</option>
+              <option value="luanda">Luanda</option>
+              <option value="huambo">Huambo</option>
+              <option value="lubango">Lubango</option>
+              <option value="malanje">Malanje</option>
+              <option value="uige">Uíge</option>
+              <option value="soyo">Soyo</option>
+              <option value="cabinda">Cabinda</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04: Extras -->
+      <div class="panel-section">
+        <div class="panel-section-title">04 — Serviços Adicionais</div>
+        <div class="extras-grid">
+          <div class="extra-toggle" onclick="toggleExtra(this)" data-cost="15">
+            <div class="toggle-check">
+              <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+            </div>
+            <div class="toggle-info">
+              <div class="toggle-name">Seguro de Carga</div>
+              <div class="toggle-cost">+15% do valor</div>
+            </div>
+          </div>
+          <div class="extra-toggle" onclick="toggleExtra(this)" data-cost="20">
+            <div class="toggle-check">
+              <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+            </div>
+            <div class="toggle-info">
+              <div class="toggle-name">Urgente / Expresso</div>
+              <div class="toggle-cost">+20% do valor</div>
+            </div>
+          </div>
+          <div class="extra-toggle" onclick="toggleExtra(this)" data-cost="10">
+            <div class="toggle-check">
+              <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+            </div>
+            <div class="toggle-info">
+              <div class="toggle-name">Carga e Descarga</div>
+              <div class="toggle-cost">+10% do valor</div>
+            </div>
+          </div>
+          <div class="extra-toggle" onclick="toggleExtra(this)" data-cost="8">
+            <div class="toggle-check">
+              <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+            </div>
+            <div class="toggle-info">
+              <div class="toggle-name">Rastreamento Premium</div>
+              <div class="toggle-cost">+8% do valor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /calc-inputs -->
+
+    <!-- RIGHT: RESULT -->
+    <div class="calc-result">
+
+      <div class="result-header">
+        <div class="result-header-label">Estimativa de Preço</div>
+        <div class="result-header-title">Resultado em Tempo Real</div>
+      </div>
+
+      <div class="result-price-block">
+        <div class="result-price-label">VALOR ESTIMADO (AOA)</div>
+        <div class="result-price" id="totalPrice">
+          <span class="result-price-currency">Kz</span>
+          <span id="priceValue">0</span>
+        </div>
+        <div class="result-price-range" id="priceRange">—</div>
+      </div>
+
+      <div class="result-route">
+        <div class="route-display">
+          <span class="route-point" id="routeOrigin">LDA</span>
+          <div class="route-line">
+            <div class="route-line-inner"></div>
+            <svg class="route-truck" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <span class="route-point" id="routeDest">BGL</span>
+        </div>
+        <div class="route-duration" id="routeInfo">A calcular rota...</div>
+      </div>
+
+      <div class="result-breakdown">
+        <div class="breakdown-title">Composição do Preço</div>
+
+        <div class="breakdown-line">
+          <span class="breakdown-line-name">Distância</span>
+          <span class="breakdown-line-val" id="brkDistance">— km</span>
+        </div>
+        <div class="breakdown-line">
+          <span class="breakdown-line-name">Taxa por km</span>
+          <span class="breakdown-line-val" id="brkRate">— Kz/km</span>
+        </div>
+        <div class="breakdown-line">
+          <span class="breakdown-line-name">Peso da carga</span>
+          <span class="breakdown-line-val" id="brkWeight">— kg</span>
+        </div>
+        <div class="breakdown-line">
+          <span class="breakdown-line-name">Base de transporte</span>
+          <span class="breakdown-line-val" id="brkBase">Kz —</span>
+        </div>
+        <div class="breakdown-line">
+          <span class="breakdown-line-name">Serviços adicionais</span>
+          <span class="breakdown-line-val" id="brkExtras">Kz 0</span>
+        </div>
+        <div class="breakdown-line total">
+          <span class="breakdown-line-name">Total Estimado</span>
+          <span class="breakdown-line-val" id="brkTotal">Kz —</span>
+        </div>
+      </div>
+
+      <div class="result-cta">
+        <a id="whatsappCta" href="#" target="_blank" class="cta-main">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Solicitar Orçamento Oficial
+        </a>
+        <a id="whatsappBtn" href="#" target="_blank" class="cta-whatsapp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"/></svg>
+          Confirmar via WhatsApp
+        </a>
+        <div class="result-note">
+          * Este cálculo é uma estimativa indicativa. O orçamento final é definido pela nossa equipa após análise completa da operação. Preços em Kwanzas Angolanos (AOA).
+        </div>
+      </div>
+
+    </div><!-- /calc-result -->
+  </div><!-- /calc-wrapper -->
+
+  <!-- INFO STRIP -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-card-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div>
+        <div class="info-card-title">Resposta em 2 Horas</div>
+        <p class="info-card-text">Após submeter o pedido, a nossa equipa confirma o orçamento oficial em menos de 2 horas nos dias úteis.</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <div class="info-card-title">Sem Custos Ocultos</div>
+        <p class="info-card-text">O valor que apresentamos inclui todos os custos operacionais. Sem surpresas na factura final.</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div class="info-card-title">Gestor Dedicado</div>
+        <p class="info-card-text">Cada cliente tem um gestor de conta que acompanha a operação do início ao fim.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER MINI -->
+  <div class="footer-mini">
+    <span>&copy; 2024 Abel Costa Transportes · +244 923 799 799 · abc.transportes2007@hotmail.com</span>
+    <a href="abel-costa-transportes.html">← Voltar ao Site Principal</a>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ========================
+    // DATA
+    // ========================
+    const serviceRates = {
+      carga:       { rate: 150, label: 'Carga Geral' },
+      logistica:   { rate: 220, label: 'Logística Empresarial' },
+      distribuicao:{ rate: 180, label: 'Distribuição Nacional' },
+      especial:    { rate: 300, label: 'Serviço Especial' }
+    };
+
+    const provinceCodes = {
+      luanda: 'LDA', benguela: 'BGL', huambo: 'HMB', lubango: 'LBG',
+      malanje: 'MLJ', uige: 'UIE', soyo: 'SOY', cabinda: 'CBN'
+    };
+
+    // Distances in km (approximate road distances from various origins)
+    const distances = {
+      'luanda-benguela': 600, 'luanda-huambo': 720, 'luanda-lubango': 1050,
+      'luanda-malanje': 380, 'luanda-uige': 320, 'luanda-soyo': 480,
+      'luanda-cabinda': 740, 'benguela-huambo': 240, 'benguela-lubango': 460,
+      'benguela-malanje': 780, 'benguela-uige': 860, 'benguela-soyo': 980,
+      'benguela-cabinda': 1100, 'huambo-lubango': 280, 'huambo-malanje': 640,
+      'huambo-uige': 820, 'huambo-soyo': 1020, 'huambo-cabinda': 1180,
+      'lubango-malanje': 980, 'lubango-uige': 1150, 'lubango-soyo': 1320,
+      'lubango-cabinda': 1500, 'malanje-uige': 350, 'malanje-soyo': 620,
+      'malanje-cabinda': 780, 'uige-soyo': 440, 'uige-cabinda': 520,
+      'soyo-cabinda': 180
+    };
+
+    const durations = {
+      'luanda-benguela': '6–8h', 'luanda-huambo': '8–10h', 'luanda-lubango': '12–14h',
+      'luanda-malanje': '4–5h', 'luanda-uige': '4h', 'luanda-soyo': '5–6h',
+      'luanda-cabinda': '8h (ferry)', 'benguela-huambo': '3h', 'benguela-lubango': '5h',
+      'benguela-malanje': '9h', 'benguela-uige': '10h', 'benguela-soyo': '12h',
+      'benguela-cabinda': '13h', 'huambo-lubango': '3–4h', 'huambo-malanje': '7h',
+      'huambo-uige': '9h', 'huambo-soyo': '12h', 'huambo-cabinda': '14h',
+      'lubango-malanje': '11h', 'lubango-uige': '13h', 'lubango-soyo': '15h',
+      'lubango-cabinda': '17h+', 'malanje-uige': '4h', 'malanje-soyo': '7h',
+      'malanje-cabinda': '9h', 'uige-soyo': '5h', 'uige-cabinda': '6h',
+      'soyo-cabinda': '2–3h'
+    };
+
+    // ========================
+    // STATE
+    // ========================
+    let state = {
+      service: 'carga',
+      weight: 500,
+      volume: 2,
+      origin: 'luanda',
+      dest: 'benguela',
+      extras: []
+    };
+
+    // ========================
+    // HELPERS
+    // ========================
+    function getDistance(o, d) {
+      if (o === d) return 0;
+      const key1 = `${o}-${d}`;
+      const key2 = `${d}-${o}`;
+      return distances[key1] || distances[key2] || 400;
+    }
+
+    function getDuration(o, d) {
+      if (o === d) return '—';
+      const key1 = `${o}-${d}`;
+      const key2 = `${d}-${o}`;
+      return durations[key1] || durations[key2] || 'A confirmar';
+    }
+
+    function fmt(n) {
+      return Math.round(n).toLocaleString('pt-AO');
+    }
+
+    // ========================
+    // CALCULATE
+    // ========================
+    function calculate() {
+      const rate = serviceRates[state.service].rate;
+      const dist = getDistance(state.origin, state.dest);
+      const weightFactor = 1 + (state.weight / 3000) * 0.8;
+      const base = rate * dist * weightFactor;
+
+      let extraPct = 0;
+      state.extras.forEach(e => extraPct += parseInt(e));
+      const extrasVal = base * (extraPct / 100);
+      const total = base + extrasVal;
+      const minVal = total * 0.9;
+      const maxVal = total * 1.15;
+
+      // Update price with flash animation
+      const priceEl = document.getElementById('totalPrice');
+      priceEl.classList.remove('updated');
+      void priceEl.offsetWidth;
+      priceEl.classList.add('updated');
+      setTimeout(() => priceEl.classList.remove('updated'), 600);
+
+      // Animate counter
+      animateNumber('priceValue', total);
+
+      document.getElementById('priceRange').innerHTML =
+        `Intervalo provável: <strong>Kz ${fmt(minVal)}</strong> — <strong>Kz ${fmt(maxVal)}</strong>`;
+
+      // Breakdown
+      document.getElementById('brkDistance').textContent = `${dist} km`;
+      document.getElementById('brkRate').textContent = `${rate} Kz/km`;
+      document.getElementById('brkWeight').textContent = `${state.weight} kg`;
+      document.getElementById('brkBase').textContent = `Kz ${fmt(base)}`;
+      document.getElementById('brkExtras').textContent = extrasVal > 0 ? `Kz ${fmt(extrasVal)}` : 'Kz 0';
+      document.getElementById('brkTotal').textContent = `Kz ${fmt(total)}`;
+
+      // Route
+      document.getElementById('routeOrigin').textContent = provinceCodes[state.origin] || 'LDA';
+      document.getElementById('routeDest').textContent = provinceCodes[state.dest] || '---';
+      document.getElementById('routeInfo').textContent =
+        dist === 0 ? 'Origem e destino iguais' : `${dist} km · Tempo estimado: ${getDuration(state.origin, state.dest)}`;
+
+      // WhatsApp links
+      const msg = encodeURIComponent(
+        `Olá, gostaria de um orçamento oficial para:\n` +
+        `• Serviço: ${serviceRates[state.service].label}\n` +
+        `• Rota: ${state.origin.toUpperCase()} → ${state.dest.toUpperCase()} (${dist} km)\n` +
+        `• Peso: ${state.weight} kg\n` +
+        `• Estimativa calculada: Kz ${fmt(total)}\n\n` +
+        `Podem confirmar o preço final?`
+      );
+      const waUrl = `https://wa.me/244923799799?text=${msg}`;
+      document.getElementById('whatsappCta').href = waUrl;
+      document.getElementById('whatsappBtn').href = waUrl;
+    }
+
+    let animFrame = null;
+    function animateNumber(id, target) {
+      const el = document.getElementById(id);
+      const start = parseFloat(el.textContent.replace(/\D/g,'')) || 0;
+      const duration = 600;
+      const startTime = performance.now();
+
+      if (animFrame) cancelAnimationFrame(animFrame);
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = start + (target - start) * ease;
+        el.textContent = fmt(current);
+        if (progress < 1) animFrame = requestAnimationFrame(step);
+      }
+
+      animFrame = requestAnimationFrame(step);
+    }
+
+    // ========================
+    // CONTROLS
+    // ========================
+    function setService(btn) {
+      document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.service = btn.dataset.service;
+      calculate();
+    }
+
+    function updateWeight(input) {
+      state.weight = parseInt(input.value);
+      document.getElementById('weightDisplay').innerHTML = `${state.weight} <span>kg</span>`;
+      const pct = ((state.weight - 100) / (3000 - 100)) * 100;
+      document.getElementById('weightFill').style.width = pct + '%';
+      calculate();
+    }
+
+    function updateVolume(input) {
+      state.volume = parseInt(input.value);
+      document.getElementById('volumeDisplay').innerHTML = `${state.volume} <span>m³</span>`;
+      const pct = ((state.volume - 1) / (20 - 1)) * 100;
+      document.getElementById('volumeFill').style.width = pct + '%';
+      calculate();
+    }
+
+    function updateRoute() {
+      state.origin = document.getElementById('originSelect').value;
+      state.dest = document.getElementById('destSelect').value;
+      calculate();
+    }
+
+    function toggleExtra(el) {
+      el.classList.toggle('active');
+      const cost = el.dataset.cost;
+      if (el.classList.contains('active')) {
+        state.extras.push(cost);
+      } else {
+        state.extras = state.extras.filter(c => c !== cost);
+      }
+      calculate();
+    }
+
+    // ========================
+    // INIT
+    // ========================
+    calculate();
+  </script>
+</body>
+</html>
